@@ -36,7 +36,15 @@ exports.comment = (req, res) => {
     });
 }
 exports.getComments = (req, res) => {
-  Comment.find({})
+  Comment.findAll({
+    where: {
+      receiver_id: req.body.targetId
+    },
+    include: [
+      {model: User, as: 'receiver', attributes: ['fullName']}, 
+      {model: User, as: 'sender', attributes: ['fullName']}
+    ]
+  })
     .then(comments => res.status(200).send(comments))
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }
