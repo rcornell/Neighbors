@@ -45,12 +45,14 @@ class PublicProfile extends React.Component {
       .then(profile => profile.json())
       .then(json => this.setState(json));
   }
-  handleCommentSubmit(message) {
+  handleCommentSubmit(e) {
+    e.preventDefault();
     const messageData = {
       submitterId: this.props.currentUserId,
       targetId: this.state.id,
-      message
+      message: this.state.currentComment
     };
+    console.log('Sending data: ', messageData);
 
     fetch('/api/comments', {
       method: 'POST',
