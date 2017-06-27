@@ -9,6 +9,7 @@ const ProfileBio = require('./profileBio.jsx');
 const AddStuff = require('./addStuff.jsx');
 const Bank = require('./bank.jsx');
 const ProfileItemList = require('./profileItemList.jsx');
+import Comments from './PublicProfile/publicComments.jsx';
 
 
 class Profile extends React.Component {
@@ -32,6 +33,7 @@ class Profile extends React.Component {
       createdAt: null,
       updatedAt: null,
       listFlag: false,
+      comments: []
     };
   }
   componentWillMount() {
@@ -66,6 +68,9 @@ class Profile extends React.Component {
             userId={this.props.id}
             populateProfile={this.populateProfile.bind(this)}
           />
+          <div>
+            <Comments comments={this.state.comments}/>
+          </div>
         </div>
         <div className="col-lg-4">
           <AddStuff userId={this.state.id} populateProfile={this.populateProfile.bind(this)} />

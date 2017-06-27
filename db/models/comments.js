@@ -3,7 +3,7 @@ const db = require('./db');
 const User = require('./users');
 
 const Comment = db.define('Comment', {
-  text: {
+  message: {
     type: Sequelize.STRING,
   },
   submitter: {

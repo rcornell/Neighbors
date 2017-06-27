@@ -1,6 +1,7 @@
 // put 2 and 2 together
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
+const Comment = require('../db/models/comments.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
@@ -21,6 +22,19 @@ exports.publicRoutes = [
   '/login',
   '/signup',
 ];
+
+exports.comment = (req, res) => {
+  console.log('Adding comment where req.body is: ', req.body);
+  Comment.create({
+    message: req.body.message,
+    target: req.body.targetId,
+    submitter: req.body.submitterId
+  })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      res.status(500).send('Error adding comment: ', err);
+    });
+}
 exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     Session.findOne({
@@ -195,6 +209,7 @@ exports.handleLogin = (req, res, next) => {
   })(req, res, next);
 };
 exports.handleSignup = (req, res, next) => {
+  console.log('Entering handlesignup');
   passport.authenticate('local-signup', (err, user) => {
     if (err) {
       return next(err); // will generate a 500 error

@@ -16,9 +16,11 @@ class ProfileChecker extends React.Component {
   }
   render() {
     if (this.props.id === Number(this.props.params.match.params.id)) {
+      console.log('this.props is: ', this.props);
       return (<PrivateProfile id={this.props.params.match.params.id} />);
     }
-    return (<PublicProfile id={this.props.params.match.params.id} />);
+    console.log('this.props is: ', this.props);
+    return (<PublicProfile id={this.props.params.match.params.id} currentUserId={this.props.id} />);
   }
 }
 

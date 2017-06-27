@@ -5,6 +5,8 @@
 const React = require('react');
 const PublicProfileBio = require('./publicProfileBio.jsx');
 const PublicProfileItemList = require('./publicProfileItemList.jsx');
+import CommentForm from './publicCommentForm.jsx';
+import Comments from './publicComments.jsx';
 
 
 class PublicProfile extends React.Component {
@@ -27,7 +29,11 @@ class PublicProfile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
+      comments: [],
+      currentComment: '' // added empty comments array
     };
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.updateComment = this.updateComment.bind(this);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
@@ -38,6 +44,26 @@ class PublicProfile extends React.Component {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
       .then(profile => profile.json())
       .then(json => this.setState(json));
+  }
+  handleCommentSubmit(message) {
+    const messageData = {
+      submitterId: this.props.currentUserId,
+      targetId: this.state.id,
+      message
+    };
+
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(messageData),
+    });
+    
+  }
+  updateComment(e) {
+    this.setState({ currentComment: e.target.value });
   }
 
   render() {
@@ -67,6 +93,17 @@ class PublicProfile extends React.Component {
               userId={this.state.id}
             />
           }
+        </div>
+        <div>
+          <div>
+            <Comments comments={this.state.comments}/>
+          </div>
+          <div>
+            <CommentForm 
+              handleCommentSubmit={this.handleCommentSubmit}
+              updateComment={this.updateComment}
+            />
+          </div>
         </div>
       </div>
 

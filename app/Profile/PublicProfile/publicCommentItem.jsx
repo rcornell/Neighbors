@@ -5,6 +5,6 @@ const CommentItem = props => (
     <div>{props.fullName}</div>
     <p>{props.comment}</p>
   </div>
-)
+);
 
-export default Comment;
+export default CommentItem;
