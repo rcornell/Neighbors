@@ -35,6 +35,11 @@ exports.comment = (req, res) => {
       res.status(500).send('Error adding comment: ', err);
     });
 }
+exports.getComments = (req, res) => {
+  Comment.find({})
+    .then(comments => res.status(200).send(comments))
+    .catch(err => res.status(500).send('Error finding comments: ', err));
+}
 exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     Session.findOne({

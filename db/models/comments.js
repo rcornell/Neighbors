@@ -15,18 +15,18 @@ const Comment = db.define('Comment', {
 });
 
 Comment.belongsTo(User, {
-  as: 'submitter',
-  foreignKey: 'submitter_id',
+  as: 'sender',
+  foreignKey: 'sender_id',
   constraints: false,
 });
 
 Comment.belongsTo(User, {
-  as: 'target',
-  foreignKey: 'target_id',
+  as: 'receiver',
+  foreignKey: 'receiver_id',
   constraints: false
 });
 
-User.hasMany(Comment, { foreignKey: 'submitter_id', constraints: false });
-User.hasMany(Comment, { foreignKey: 'target_id', constraints: false });
+User.hasMany(Comment, { foreignKey: 'sender_id', constraints: false });
+User.hasMany(Comment, { foreignKey: 'receiver_id', constraints: false });
 
 module.exports = Comment;
