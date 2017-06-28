@@ -8,9 +8,14 @@ const Comments = props => {
   }
   console.log('Rendering comments: ', props.comments);   
   return (
-    <div> 
+    <div className="comments"> 
       {
-        props.comments.map((comment) => <CommentItem key={count++} comment={comment} />)
+        props.comments.map((comment) =>
+          <CommentItem
+            key={count++}
+            comment={comment}
+          />
+        )
       }
     </div>
   )

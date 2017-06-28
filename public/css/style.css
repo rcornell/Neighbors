@@ -1763,3 +1763,28 @@ i.icon-white {
 		width: 100%;
 	}
 }
+
+.comments {
+	margin: 1em;
+	padding: 1em;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.commentItem {
+	margin: 5px 0;
+	border-bottom: 1px solid black;
+}
+
+.commentSubmitter {
+	margin: 5px 0;
+	font-size: 20px;
+}
+
+.commentMessage {
+
+}
+
+.commentForm {
+	margin: 1em;
+} 

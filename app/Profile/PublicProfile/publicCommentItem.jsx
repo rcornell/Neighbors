@@ -1,9 +1,9 @@
 import React from 'react';
 
 const CommentItem = props => (
-  <div>
-    <div>{props.comment.sender.fullName}</div>
-    <p>{props.comment.message}</p>
+  <div className="commentItem">
+    <div className="commentSubmitter">By {props.comment.sender.fullName} on {props.comment.createdAt.slice(0,10)}</div>
+    <p className="commentMessage">{props.comment.message}</p>
   </div>
 );
 

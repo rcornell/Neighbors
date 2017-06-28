@@ -104,16 +104,7 @@ class PublicProfile extends React.Component {
             state={this.state.state}
             zip={this.state.zip}
           />
-        </div>
-        <div className="col-lg-7">
-          {this.state.id &&
-            <PublicProfileItemList
-              populateProfile={this.populateProfile.bind(this)}
-              userId={this.state.id}
-            />
-          }
-        </div>
-        <div>
+          <div>
           <div>
             <Comments comments={this.state.comments}/>
           </div>
@@ -123,6 +114,15 @@ class PublicProfile extends React.Component {
               updateComment={this.updateComment}
             />
           </div>
+        </div>
+        </div>
+        <div className="col-lg-7">
+          {this.state.id &&
+            <PublicProfileItemList
+              populateProfile={this.populateProfile.bind(this)}
+              userId={this.state.id}
+            />
+          }
         </div>
       </div>
 
