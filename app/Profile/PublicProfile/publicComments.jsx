@@ -16,12 +16,6 @@ class Comments extends React.Component {
   toggleAll() {
     this.setState({showAll: !this.state.showAll});
   }
-  deleteComment(e) {
-    
-  }
-  editComment(e) {
-    
-  }
 
   render() {
     if (!this.props.comments || !this.props.comments.length) {
