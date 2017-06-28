@@ -34,6 +34,8 @@ module.exports = (app) => {
   app.post('/api/borrow', controller.borrow);
   app.post('/api/comments', controller.comment);
   app.get('/api/comments', controller.getComments);
+  app.put('/api/comments', controller.updateComment);
+  app.delete('/api/comments', controller.deleteComment);
 };
 
 

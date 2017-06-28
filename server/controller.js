@@ -23,6 +23,14 @@ exports.publicRoutes = [
   '/signup',
 ];
 
+exports.updateComment = (req, res) => {
+  console.log('Entering updateComment');
+  res.sendStatus(200);
+}
+exports.deleteComment = (req, res) => {
+  console.log('Entering deleteComment');
+  res.sendStatus(200);
+}
 exports.comment = (req, res) => {
   console.log('Adding comment where req.body is: ', req.body);
   Comment.create({
