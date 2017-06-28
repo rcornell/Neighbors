@@ -25,7 +25,15 @@ exports.publicRoutes = [
 
 exports.updateComment = (req, res) => {
   console.log('Entering updateComment where req.body is: ', req.body);
-  res.sendStatus(200);
+  Comment.update({message: req.body.message}, { where: { id: req.body.commentId }})
+    .then((result) => {
+      console.log('Done updating. Result: ', result);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error updating comment: ', err);
+      res.sendStatus(500);
+    });
 }
 exports.deleteComment = (req, res) => {
   console.log('Entering deleteComment where req.body is: ', req.body);
