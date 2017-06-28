@@ -8,8 +8,9 @@ class CommentItem extends React.Component {
       isEditing: false,
       newComment: ''
     };
-    this.editComment = this.editComment.bind(this);
+    this.submitEdit = this.submitEdit.bind(this);
     this.openEditor = this.openEditor.bind(this);
+    this.handleUpdateComment = this.handleUpdateComment.bind(this);
   }
   handleUpdateComment(e) {
     this.setState({newComment: e.target.value});

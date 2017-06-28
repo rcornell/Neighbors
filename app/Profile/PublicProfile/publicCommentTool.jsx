@@ -6,7 +6,7 @@ const CommentTool = props => {
     <span>
       <button onClick={props.openEditor}>Edit</button>
       <button onClick={props.deleteComment}>Delete</button>
-      {SubmitButton>}
+      {SubmitButton}
     </span>
   );
 }
