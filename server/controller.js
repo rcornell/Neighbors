@@ -50,8 +50,8 @@ exports.getComments = (req, res) => {
   })
     .then((comments) => {
       // res.sendStatus(200);
-      // console.log(comments);
-      res.status(200).send(comments)
+      // console.log('Found comments: ', comments);
+      res.send(comments)
     })
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }

@@ -34,10 +34,11 @@ class PublicProfile extends React.Component {
     };
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.updateComment = this.updateComment.bind(this);
+    this.getComments = this.getComments.bind(this);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
-    getComments();
+    this.getComments(this.props.id);
   }
   // Populate profile populates the profile page by querying the User table by Id.
   // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
@@ -64,8 +65,9 @@ class PublicProfile extends React.Component {
       body: JSON.stringify(messageData),
     }); 
   }
-  getComments() {
-    fetch(`/api/comments?id=${this.state.id}`, {
+  getComments(id) {
+    console.log('In getComments, id is: ', id);
+    fetch(`/api/comments?id=${id}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -73,8 +75,10 @@ class PublicProfile extends React.Component {
       credentials: 'same-origin',
       // body: JSON.stringify(this.state.id)
     })
+      .then((results) => results.json())
       .then((results) => {
-        this.setState({ comments: results.data }); //THIS IS THE LAST THING YOU WROTE. NOT SURE IF RIGHT ID
+        console.log('Received getComments results: ', results);
+        // this.setState({ comments: results.data });
       })
   }
   updateComment(e) {
