@@ -37,6 +37,7 @@ class PublicProfile extends React.Component {
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
+    getComments();
   }
   // Populate profile populates the profile page by querying the User table by Id.
   // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
@@ -61,8 +62,20 @@ class PublicProfile extends React.Component {
       },
       credentials: 'same-origin',
       body: JSON.stringify(messageData),
-    });
-    
+    }); 
+  }
+  getComments() {
+    fetch(`/api/comments?id=${this.state.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      // body: JSON.stringify(this.state.id)
+    })
+      .then((results) => {
+        this.setState({ comments: results.data }); //THIS IS THE LAST THING YOU WROTE. NOT SURE IF RIGHT ID
+      })
   }
   updateComment(e) {
     this.setState({ currentComment: e.target.value });

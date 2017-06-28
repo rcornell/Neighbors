@@ -28,7 +28,9 @@ exports.comment = (req, res) => {
   Comment.create({
     message: req.body.message,
     target: req.body.targetId,
-    submitter: req.body.submitterId
+    submitter: req.body.submitterId,
+    sender_id: req.body.submitterId,
+    receiver_id: req.body.targetId
   })
     .then(() => res.sendStatus(200))
     .catch((err) => {
@@ -36,16 +38,21 @@ exports.comment = (req, res) => {
     });
 }
 exports.getComments = (req, res) => {
+  console.log('Entering getComments where query is: ', req.query);
   Comment.findAll({
     where: {
-      receiver_id: req.body.targetId
+      target: req.query.id
     },
     include: [
       {model: User, as: 'receiver', attributes: ['fullName']}, 
       {model: User, as: 'sender', attributes: ['fullName']}
     ]
   })
-    .then(comments => res.status(200).send(comments))
+    .then((comments) => {
+      // res.sendStatus(200);
+      // console.log(comments);
+      res.status(200).send(comments)
+    })
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }
 exports.checkSession = (req, res, next) => {
