@@ -37,7 +37,15 @@ exports.updateComment = (req, res) => {
 }
 exports.deleteComment = (req, res) => {
   console.log('Entering deleteComment where req.body is: ', req.body);
-  res.sendStatus(200);
+  Comment.destroy({where: {id: req.body.commentId}})
+    .then((result) => {
+      console.log('Done deleting. Result: ', result);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error deleting comment: ', err);
+      res.sendStatus(500);
+    });
 }
 exports.comment = (req, res) => {
   console.log('Adding comment where req.body is: ', req.body);

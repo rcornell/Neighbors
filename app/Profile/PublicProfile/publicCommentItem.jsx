@@ -39,7 +39,7 @@ class CommentItem extends React.Component {
   }
   deleteComment(e) {
     const data = {
-      messageId: this.props.comment.id
+      commentId: this.props.comment.id
     }
     fetch('/api/comments', {
       method: 'DELETE',
@@ -47,7 +47,7 @@ class CommentItem extends React.Component {
         'Content-type': 'application/json',
       },
       credentials: 'same-origin',
-      body: data
+      body: JSON.stringify(data)
     })
       .then(() => {
         console.log('DELETE SENT');
