@@ -29,16 +29,15 @@ class PublicProfile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
-      comments: [],
       currentComment: '' // added empty comments array
     };
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.updateComment = this.updateComment.bind(this);
-    this.getComments = this.getComments.bind(this);
+    console.log('In PublicProfile, this.props.comments is: ', this.props.comments);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
-    this.getComments(this.props.id);
+    this.props.getComments(this.props.id);
   }
   // Populate profile populates the profile page by querying the User table by Id.
   // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
@@ -64,32 +63,11 @@ class PublicProfile extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(messageData),
     })
-    .then(() => this.getComments(this.props.id)); 
-  }
-  getComments(id) {
-    console.log('In getComments, id is: ', id);
-    fetch(`/api/comments?id=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      // body: JSON.stringify(this.state.id)
-    })
-      .then((results) => results.json())
-      .then((results) => {
-        console.log('Received getComments results: ', results);
-        results.reverse();
-        this.setState({ 
-          comments: results,
-          currentComment: '' 
-        });
-      })
+    .then(() => this.props.getComments(this.props.id)); 
   }
   updateComment(e) {
     this.setState({ currentComment: e.target.value });
   }
-
   render() {
     return (
       <div className="container">
@@ -111,7 +89,7 @@ class PublicProfile extends React.Component {
           />
           <div>
           <div>
-            <Comments comments={this.state.comments}/>
+            <Comments comments={this.props.comments}/>
           </div>
           <div>
             <CommentForm
@@ -131,7 +109,6 @@ class PublicProfile extends React.Component {
           }
         </div>
       </div>
-
     );
   }
 }

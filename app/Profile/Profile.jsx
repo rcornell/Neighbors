@@ -32,9 +32,9 @@ class Profile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
-      listFlag: false,
-      comments: []
+      listFlag: false
     };
+    props.getComments(props.id);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
@@ -69,7 +69,7 @@ class Profile extends React.Component {
             populateProfile={this.populateProfile.bind(this)}
           />
           <div>
-            <Comments comments={this.state.comments}/>
+            <Comments comments={this.props.comments}/>
           </div>
         </div>
         <div className="col-lg-4">
