@@ -31,7 +31,7 @@ class UserItemEntry extends React.Component {
       method: 'PUT',
     })
       .then(() => this.props.fetchUserItems(this.props.ownerId))
-      .catch(() => alert('Sorry, there was a problem fulfillng your request. Please try again'));
+      .catch(() => alert('Sorry, there was a problem fulfilling your request. Please try again'));
   }
   toggleReviewSplash() {
     const { showReviewSplash } = this.state;
