@@ -9,6 +9,7 @@ const ProfileBio = require('./profileBio.jsx');
 const AddStuff = require('./addStuff.jsx');
 const Bank = require('./bank.jsx');
 const ProfileItemList = require('./profileItemList.jsx');
+import Comments from './PublicProfile/publicComments.jsx';
 
 
 class Profile extends React.Component {
@@ -31,8 +32,9 @@ class Profile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
-      listFlag: false,
+      listFlag: false
     };
+    props.getComments(props.id);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
@@ -41,7 +43,7 @@ class Profile extends React.Component {
   populateProfile(profileRoute) {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
       .then(profile => profile.json())
-      .then(json => this.setState(json))
+      .then(json => this.setState(json)) //This is a problem
       .then(this.setState({
         listFlag: !(this.state.listFlag),
       }));
@@ -66,6 +68,11 @@ class Profile extends React.Component {
             userId={this.props.id}
             populateProfile={this.populateProfile.bind(this)}
           />
+          <div>
+            <Comments
+              comments={this.props.comments}
+            />
+          </div>
         </div>
         <div className="col-lg-4">
           <AddStuff userId={this.state.id} populateProfile={this.populateProfile.bind(this)} />

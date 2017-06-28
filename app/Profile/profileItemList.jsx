@@ -38,6 +38,8 @@ class ProfileItemList extends React.Component {
     return true;
   }
   fetchUserItems(route) {
+    console.log('In fetchUserItems, route is: ', route);
+    console.log('In fetchUserItems, "this" is: ', this);
     fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
       .then(items => items.json())
       .then(json => this.setState({

@@ -1,6 +1,7 @@
 // put 2 and 2 together
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
+const Comment = require('../db/models/comments.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
@@ -21,6 +22,63 @@ exports.publicRoutes = [
   '/login',
   '/signup',
 ];
+
+exports.updateComment = (req, res) => {
+  console.log('Entering updateComment where req.body is: ', req.body);
+  Comment.update({message: req.body.message}, { where: { id: req.body.commentId }})
+    .then((result) => {
+      console.log('Done updating. Result: ', result);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error updating comment: ', err);
+      res.sendStatus(500);
+    });
+}
+exports.deleteComment = (req, res) => {
+  console.log('Entering deleteComment where req.body is: ', req.body);
+  Comment.destroy({where: {id: req.body.commentId}})
+    .then((result) => {
+      console.log('Done deleting. Result: ', result);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error deleting comment: ', err);
+      res.sendStatus(500);
+    });
+}
+exports.comment = (req, res) => {
+  console.log('Adding comment where req.body is: ', req.body);
+  Comment.create({
+    message: req.body.message,
+    target: req.body.targetId,
+    submitter: req.body.submitterId,
+    sender_id: req.body.submitterId,
+    receiver_id: req.body.targetId
+  })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      res.status(500).send('Error adding comment: ', err);
+    });
+}
+exports.getComments = (req, res) => {
+  console.log('Entering getComments where query is: ', req.query);
+  Comment.findAll({
+    where: {
+      target: req.query.id
+    },
+    include: [
+      {model: User, as: 'receiver', attributes: ['fullName']}, 
+      {model: User, as: 'sender', attributes: ['fullName']}
+    ]
+  })
+    .then((comments) => {
+      // res.sendStatus(200);
+      // console.log('Found comments: ', comments);
+      res.send(comments)
+    })
+    .catch(err => res.status(500).send('Error finding comments: ', err));
+}
 exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     Session.findOne({
@@ -195,6 +253,7 @@ exports.handleLogin = (req, res, next) => {
   })(req, res, next);
 };
 exports.handleSignup = (req, res, next) => {
+  console.log('Entering handlesignup');
   passport.authenticate('local-signup', (err, user) => {
     if (err) {
       return next(err); // will generate a 500 error

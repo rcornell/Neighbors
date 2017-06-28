@@ -5,6 +5,8 @@
 const React = require('react');
 const PublicProfileBio = require('./publicProfileBio.jsx');
 const PublicProfileItemList = require('./publicProfileItemList.jsx');
+import CommentForm from './publicCommentForm.jsx';
+import Comments from './publicComments.jsx';
 
 
 class PublicProfile extends React.Component {
@@ -27,10 +29,15 @@ class PublicProfile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
+      currentComment: '' // added empty comments array
     };
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.updateComment = this.updateComment.bind(this);
+    console.log('In PublicProfile, this.props.comments is: ', this.props.comments);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
+    this.props.getComments(this.props.id);
   }
   // Populate profile populates the profile page by querying the User table by Id.
   // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
@@ -39,7 +46,29 @@ class PublicProfile extends React.Component {
       .then(profile => profile.json())
       .then(json => this.setState(json));
   }
+  handleCommentSubmit(e) {
+    e.preventDefault();
+    this.setState({ currentComment: '' });
+    const messageData = {
+      submitterId: this.props.currentUserId,
+      targetId: this.state.id,
+      message: this.state.currentComment
+    };
+    console.log('Sending data: ', messageData);
 
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(messageData),
+    })
+    .then(() => this.props.getComments(this.props.id)); 
+  }
+  updateComment(e) {
+    this.setState({ currentComment: e.target.value });
+  }
   render() {
     return (
       <div className="container">
@@ -59,6 +88,22 @@ class PublicProfile extends React.Component {
             state={this.state.state}
             zip={this.state.zip}
           />
+          <div>
+          <div>
+            <Comments
+              getComments={this.props.getComments}
+              currentUserId={this.props.currentUserId}
+              comments={this.props.comments}
+            />
+          </div>
+          <div>
+            <CommentForm
+              currentComment={this.state.currentComment} 
+              handleCommentSubmit={this.handleCommentSubmit}
+              updateComment={this.updateComment}
+            />
+          </div>
+        </div>
         </div>
         <div className="col-lg-7">
           {this.state.id &&
@@ -69,7 +114,6 @@ class PublicProfile extends React.Component {
           }
         </div>
       </div>
-
     );
   }
 }

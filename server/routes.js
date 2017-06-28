@@ -32,6 +32,10 @@ module.exports = (app) => {
   app.put('/api/ratings', controller.updateRating);
   app.post('/api/updateUser', controller.updateUser);
   app.post('/api/borrow', controller.borrow);
+  app.post('/api/comments', controller.comment);
+  app.get('/api/comments', controller.getComments);
+  app.put('/api/comments', controller.updateComment);
+  app.delete('/api/comments', controller.deleteComment);
 };
 
 
