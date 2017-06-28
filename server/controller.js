@@ -24,11 +24,11 @@ exports.publicRoutes = [
 ];
 
 exports.updateComment = (req, res) => {
-  console.log('Entering updateComment');
+  console.log('Entering updateComment where req.body is: ', req.body);
   res.sendStatus(200);
 }
 exports.deleteComment = (req, res) => {
-  console.log('Entering deleteComment');
+  console.log('Entering deleteComment where req.body is: ', req.body);
   res.sendStatus(200);
 }
 exports.comment = (req, res) => {

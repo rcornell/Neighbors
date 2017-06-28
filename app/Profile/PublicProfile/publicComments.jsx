@@ -9,8 +9,6 @@ class Comments extends React.Component {
       showAll: false
     }
     this.toggleAll = this.toggleAll.bind(this);
-    this.editComment = this.editComment.bind(this);
-    this.deleteComment = this.deleteComment.bind(this);
   }
 
   toggleAll() {
@@ -35,6 +33,7 @@ class Comments extends React.Component {
         {
           commentsToShow.map((comment) =>
             <CommentItem
+              getComments={this.props.getComments}
               currentUserId={this.props.currentUserId}
               key={count++}
               comment={comment}

@@ -22,10 +22,20 @@ class CommentItem extends React.Component {
   submitEdit(e) {
     fetch('/api/comments', {
       method: 'PUT',
-      body: this.state.newComment
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        commentId: this.props.comment.id,
+        message:this.state.newComment
+      })
     })
-      .then(() => console.log('UPDATE SENT'))
-      .catch(err => console.log('Error updating comment'));
+      .then(() => {
+        console.log('UPDATE SENT');
+        this.props.getComments();
+      })
+      .catch(err => console.log('Error updating comment:', err));
   }
   deleteComment(e) {
     const data = {
@@ -33,9 +43,16 @@ class CommentItem extends React.Component {
     }
     fetch('/api/comments', {
       method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
       body: data
     })
-      .then(() => console.log('DELETE SENT'))
+      .then(() => {
+        console.log('DELETE SENT');
+        this.props.getComments();
+      })
       .catch(err => console.log('Error deleting comment'));
   }
 

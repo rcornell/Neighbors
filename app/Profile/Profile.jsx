@@ -69,7 +69,9 @@ class Profile extends React.Component {
             populateProfile={this.populateProfile.bind(this)}
           />
           <div>
-            <Comments comments={this.props.comments}/>
+            <Comments
+              comments={this.props.comments}
+            />
           </div>
         </div>
         <div className="col-lg-4">

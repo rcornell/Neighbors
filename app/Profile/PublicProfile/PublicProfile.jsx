@@ -90,6 +90,7 @@ class PublicProfile extends React.Component {
           <div>
           <div>
             <Comments
+              getComments={this.props.getComments}
               currentUserId={this.props.currentUserId}
               comments={this.props.comments}
             />
