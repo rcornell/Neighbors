@@ -63,7 +63,8 @@ class PublicProfile extends React.Component {
       },
       credentials: 'same-origin',
       body: JSON.stringify(messageData),
-    }); 
+    })
+    .then(() => this.getComments(this.props.id)); 
   }
   getComments(id) {
     console.log('In getComments, id is: ', id);
@@ -78,7 +79,10 @@ class PublicProfile extends React.Component {
       .then((results) => results.json())
       .then((results) => {
         console.log('Received getComments results: ', results);
-        this.setState({ comments: results });
+        this.setState({ 
+          comments: results,
+          currentComment: '' 
+        });
       })
   }
   updateComment(e) {
@@ -109,7 +113,8 @@ class PublicProfile extends React.Component {
             <Comments comments={this.state.comments}/>
           </div>
           <div>
-            <CommentForm 
+            <CommentForm
+              currentComment={this.state.currentComment} 
               handleCommentSubmit={this.handleCommentSubmit}
               updateComment={this.updateComment}
             />
