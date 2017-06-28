@@ -9,4 +9,6 @@ const CommentTool = props => {
       {SubmitButton}
     </span>
   );
-}
+};
+
+export default CommentTool;

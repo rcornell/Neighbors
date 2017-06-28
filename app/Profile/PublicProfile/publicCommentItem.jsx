@@ -10,44 +10,64 @@ class CommentItem extends React.Component {
     };
     this.submitEdit = this.submitEdit.bind(this);
     this.openEditor = this.openEditor.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
     this.handleUpdateComment = this.handleUpdateComment.bind(this);
   }
   handleUpdateComment(e) {
     this.setState({newComment: e.target.value});
   }
   openEditor(e) {
-    this.setState({isEditing: true});
+    this.setState({isEditing: !this.state.isEditing});
   }
   submitEdit(e) {
     fetch('/api/comments', {
-      method: 'UPDATE',
+      method: 'PUT',
       body: this.state.newComment
     })
       .then(() => console.log('UPDATE SENT'))
       .catch(err => console.log('Error updating comment'));
   }
+  deleteComment(e) {
+    const data = {
+      messageId: this.props.comment.id
+    }
+    fetch('/api/comments', {
+      method: 'DELETE',
+      body: data
+    })
+      .then(() => console.log('DELETE SENT'))
+      .catch(err => console.log('Error deleting comment'));
+  }
 
   render() {
       const CommentBody = this.state.isEditing 
-        ? (<input
+        ? <input
             type="text"
             onChange={this.handleUpdateComment}
-            value={props.comment.message}
-          />)
-        : (<p
+            placeholder={this.props.comment.message}
+          />
+        : <p
             className="commentMessage">
-            {props.comment.message}
-          </p>);
+            {this.props.comment.message}
+          </p>;
 
-      const CommentTool = props.currentUserId === props.comment.sender_id 
-        ? <CommentTool isEditing={this.state.isEditing} /> 
+      const Tool = this.props.currentUserId === this.props.comment.sender_id 
+        ? <CommentTool 
+            openEditor={this.openEditor}
+            isEditing={this.state.isEditing}
+            deleteComment={this.deleteComment}
+            submitEdit={this.submitEdit}
+          /> 
         : null; 
 
     return (
       <div className="commentItem">
-        <div className="commentSubmitter">By {props.comment.sender.fullName} on {props.comment.createdAt.slice(0,10)}</div>
+        <div 
+          className="commentSubmitter">
+          By {this.props.comment.sender.fullName} on {this.props.comment.createdAt.slice(0,10)}
+        </div>
         {CommentBody}
-        {CommentTool}
+        {Tool}
       </div>
     );  
   }  
