@@ -16,8 +16,6 @@ class ProfileChecker extends React.Component {
   }
   getComments() {
     console.log('Entering getComments');
-    // console.log('In getComments, id is: ', id);
-    // console.log('In getComments, this.props.id is: ', this.props.id);
     const profileId = +this.props.params.match.params.id;
     console.log('Getting comments for profile: ', profileId);
     fetch(`/api/comments?id=${profileId}`, {

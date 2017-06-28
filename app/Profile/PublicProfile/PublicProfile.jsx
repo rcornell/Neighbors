@@ -48,6 +48,7 @@ class PublicProfile extends React.Component {
   }
   handleCommentSubmit(e) {
     e.preventDefault();
+    this.setState({ currentComment: '' });
     const messageData = {
       submitterId: this.props.currentUserId,
       targetId: this.state.id,
