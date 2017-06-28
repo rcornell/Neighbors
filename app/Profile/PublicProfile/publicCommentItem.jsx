@@ -2,8 +2,8 @@ import React from 'react';
 
 const CommentItem = props => (
   <div>
-    <div>{props.fullName}</div>
-    <p>{props.comment}</p>
+    <div>{props.comment.sender.fullName}</div>
+    <p>{props.comment.message}</p>
   </div>
 );
 

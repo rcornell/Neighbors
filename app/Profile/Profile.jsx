@@ -43,7 +43,7 @@ class Profile extends React.Component {
   populateProfile(profileRoute) {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
       .then(profile => profile.json())
-      .then(json => this.setState(json))
+      .then(json => this.setState(json)) //This is a problem
       .then(this.setState({
         listFlag: !(this.state.listFlag),
       }));

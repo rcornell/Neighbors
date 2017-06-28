@@ -78,7 +78,7 @@ class PublicProfile extends React.Component {
       .then((results) => results.json())
       .then((results) => {
         console.log('Received getComments results: ', results);
-        // this.setState({ comments: results.data });
+        this.setState({ comments: results });
       })
   }
   updateComment(e) {
