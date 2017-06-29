@@ -42,7 +42,7 @@ class AddStuff extends React.Component {
       //   .then(() => this.clearField());
 
       axios.post('/api/items', {
-        mage: this.image.value,
+        image: this.image.value,
         title: this.title.value,
         description: this.description.value,
         user_id: this.props.userId,
