@@ -41,6 +41,9 @@ class ProfileChecker extends React.Component {
         this.setState({ 
           comments: results.data
         });
+        setTimeout(function() {
+          console.log('Comments are now: ', this.state.comments);
+        }.bind(this), 1000);
       })
   }
   render() {

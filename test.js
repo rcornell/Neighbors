@@ -58,7 +58,13 @@ describe('interact with ShareIn user interface', function() {
 
   describe('Should interact with user comments', function() {
     it('should leave a comment', function(done) {
-      nightmare.goto('http://localhost:8080')
+      nightmare
+        .viewport(1024,720)
+        .goto('http://localhost:8080')
+        // .on('console', function(type, input, message) {
+        //   message = message ? message : '';
+        //   console.log(input, message);
+        // })
         .click('.loginButton')
         .click('.localLoginButton')
         .type('.userEmail', 'rob.cornell@gmail.com')
@@ -66,20 +72,23 @@ describe('interact with ShareIn user interface', function() {
         .click('.submitLoginButton')
         .wait(500)
         .click('a#gotoProfileButton')
-        .wait(500)
+        .wait(1000)
         // .end()
         // .then(() => { done() })
         .click('#react-tabs-2')
+        .wait(500)
         .click('.ownerButton')
         .wait(500)
         .click('.editCommentButton')
         .type('.editCommentInput', 'Working test')
         .click('.submitEditButton')
+        .wait(1000)
         .end()
         .evaluate(function() {
-          const item = document.querySelector('.commentMessage');
-          console.log('Item: ', item);
-          expect(item.innertext).to.equal('Working test');
+          return document.querySelector('.commentMessage').innerText;
+        })
+        .then((text) => {
+          expect(text).to.equal('Working test');
           done();
         })
         .catch(done);

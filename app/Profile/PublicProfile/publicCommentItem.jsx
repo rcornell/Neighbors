@@ -89,8 +89,7 @@ class CommentItem extends React.Component {
           By <a className="submitterName"
                 href={'/profile/' + this.props.comment.sender_id}>
                 {this.props.comment.sender.fullName}
-              </a> 
-          on {this.props.comment.createdAt.slice(0,10)}
+              </a> on {this.props.comment.createdAt.slice(0,10)}
         </div>
         {CommentBody}
         {Tool}

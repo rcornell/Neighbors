@@ -24,7 +24,7 @@ class ProfileItemList extends React.Component {
     this.fetchUserItems = this.fetchUserItems.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchUserItems(this.props.userId);
     this.fetchBorrowedItems(this.props.userId);
   }
@@ -39,28 +39,34 @@ class ProfileItemList extends React.Component {
   //   return true;
   // }
   fetchUserItems(route) {
-    console.log('In fetchUserItems, route is: ', route);
-    console.log('In fetchUserItems, "this" is: ', this);
+    const url = `/api/userItems/${route}`;
+    // console.log('In fetchUserItems, route is: ', route);
+    // console.log('In fetchUserItems, "this" is: ', this);
+    console.log('In fetchUserItems, url is', url);
     // fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
     //   .then(items => items.json())
     //   .then(json => this.setState({
     //     userItems: json,
     //   }));
-    axios.get(`/api/userItems/${route}`)
+    axios.get(url)
       .then((results) => {
         console.log('In fetchUserItems, data is: ', results.data);
         this.setState({
           userItems: results.data
         });
-      });
+      })
+      .catch((err) => console.log('Error retrieving items: ', err));
   }
   fetchBorrowedItems(route) {
+    console.log('Entering fetchBorrowedItems with route: ', route);
+    const url = `/api/borrowedItems/${route}`;
+    
     // fetch(`/api/borrowedItems/${route}`, { credentials: 'same-origin' })
     //   .then(items => items.json())
     //   .then(json => this.setState({
     //     borrowedItems: json,
     //   }));
-    axios.get(`/api/borrowedItems/${route}`)
+    axios.get(url)
       .then((results) => {
         console.log('In fetchBorrowedItems, data is: ', results.data);
         this.setState({
