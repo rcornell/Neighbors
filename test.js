@@ -11,7 +11,7 @@ describe('interact with ShareIn user interface', function() {
     nightmare = new Nightmare({show: true});
   });
 
-  describe('load the page successfully', function() {
+  xdescribe('load the page successfully', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -21,7 +21,7 @@ describe('interact with ShareIn user interface', function() {
   })
 
 
-  describe('log in to the site', function() {
+  xdescribe('log in to the site', function() {
     it('should click the login button and enter credentials', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -37,7 +37,7 @@ describe('interact with ShareIn user interface', function() {
     })
   })
 
-  describe('given bad login data', function() {
+  xdescribe('given bad login data', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -51,7 +51,38 @@ describe('interact with ShareIn user interface', function() {
         .then((result) => {
           expect(result).to.be.true;
           done();
-        });
+        })
+        .catch(done);
+    })
+  })
+
+  describe('Should interact with user comments', function() {
+    it('should leave a comment', function(done) {
+      nightmare.goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'rob.cornell@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .click('a#gotoProfileButton')
+        .wait(500)
+        // .end()
+        // .then(() => { done() })
+        .click('#react-tabs-2')
+        .click('.ownerButton')
+        .wait(500)
+        .click('.editCommentButton')
+        .type('.editCommentInput', 'Working test')
+        .click('.submitEditButton')
+        .end()
+        .evaluate(function() {
+          const item = document.querySelector('.commentMessage');
+          console.log('Item: ', item);
+          expect(item.innertext).to.equal('Working test');
+          done();
+        })
+        .catch(done);
     })
   })
 

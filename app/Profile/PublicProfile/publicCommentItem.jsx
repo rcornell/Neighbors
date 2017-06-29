@@ -64,6 +64,7 @@ class CommentItem extends React.Component {
       const CommentBody = this.state.isEditing 
         ? <input
             type="text"
+            className="editCommentInput"
             onChange={this.handleUpdateComment}
             placeholder={this.props.comment.message}
           />
@@ -85,7 +86,11 @@ class CommentItem extends React.Component {
       <div className="commentItem">
         <div 
           className="commentSubmitter">
-          By {this.props.comment.sender.fullName} on {this.props.comment.createdAt.slice(0,10)}
+          By <a className="submitterName"
+                href={'/profile/' + this.props.comment.sender_id}>
+                {this.props.comment.sender.fullName}
+              </a> 
+          on {this.props.comment.createdAt.slice(0,10)}
         </div>
         {CommentBody}
         {Tool}

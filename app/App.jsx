@@ -115,7 +115,7 @@ class App extends React.Component {
                   <Link to="/" className="btn">
                     RESULTS
                   </Link>
-                  <Link to={profileLink} className="btn">
+                  <Link to={profileLink} className="btn" id="gotoProfileButton">
                     PROFILE
                   </Link>
                   {logButton}

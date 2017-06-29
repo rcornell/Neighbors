@@ -24,20 +24,20 @@ class ProfileItemList extends React.Component {
     this.fetchUserItems = this.fetchUserItems.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchUserItems(this.props.userId);
     this.fetchBorrowedItems(this.props.userId);
   }
 
   // Component should update if userId changes clicking on other user's profile
   // or if you add an item (changes flag on state in profile)
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.userId !== nextProps.userId || (this.props.flag !== nextProps.flag)) {
-      this.fetchUserItems(nextProps.userId);
-      this.fetchBorrowedItems(nextProps.userId);
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.props.userId !== nextProps.userId || (this.props.flag !== nextProps.flag)) {
+  //     this.fetchUserItems(nextProps.userId);
+  //     this.fetchBorrowedItems(nextProps.userId);
+  //   }
+  //   return true;
+  // }
   fetchUserItems(route) {
     console.log('In fetchUserItems, route is: ', route);
     console.log('In fetchUserItems, "this" is: ', this);
@@ -73,7 +73,7 @@ class ProfileItemList extends React.Component {
       <Tabs className="sub-component">
         <TabList>
           <Tab>My Stuff</Tab>
-          <Tab>Borrowed</Tab>
+          <Tab id="borrowedTab">Borrowed</Tab>
         </TabList>
         <TabPanel>
           {this.state.userItems && this.state.userItems.map(item =>
@@ -108,4 +108,40 @@ class ProfileItemList extends React.Component {
   }
 }
 
+
+
 module.exports = ProfileItemList;
+// <Tabs className="sub-component">
+//         <TabList>
+//           <Tab>My Stuff</Tab>
+//           <Tab id="borrowedTab">Borrowed</Tab>
+//         </TabList>
+//         <TabPanel>
+//           {this.state.userItems && this.state.userItems.map(item =>
+//             (<UserItemEntry
+//               image={item.image}
+//               ownerId={item.owner_id}
+//               itemId={item.id}
+//               title={item.title}
+//               description={item.itemDescription}
+//               borrower={item.borrower ? item.borrower.fullName : null}
+//               borrowerId={item.borrower_id ? item.borrower_id : null}
+//               populateProfile={this.props.populateProfile}
+//               fetchUserItems={this.fetchUserItems}
+//               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
+//             />),
+//           )}
+//         </TabPanel>
+//         <TabPanel>
+//           {this.state.borrowedItems && this.state.borrowedItems.map(item =>
+//             (<BorrowedItemEntry
+//               image={item.image}
+//               title={item.title}
+//               description={item.itemDescription}
+//               owner={item.owner.fullName}
+//               ownerId={item.owner_id}
+//               populateProfile={this.props.populateProfile}
+//             />),
+//           )}
+//         </TabPanel>
+//       </Tabs>

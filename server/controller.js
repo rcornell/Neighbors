@@ -80,6 +80,7 @@ exports.getComments = (req, res) => {
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }
 exports.checkSession = (req, res, next) => {
+  console.log(req.sessionID);
   if (req.sessionID) {
     Session.findOne({
       where: { sid: req.sessionID },

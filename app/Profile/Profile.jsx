@@ -36,9 +36,15 @@ class Profile extends React.Component {
       listFlag: false
     };
     props.getComments(props.id);
+    this.populateProfile = this.populateProfile.bind(this);
   }
-  componentWillMount() {
-    this.populateProfile(this.props.id);
+  componentDidMount() {
+    // this.populateProfile(this.props.id);
+    axios.get(`/api/profile/${this.props.id}`)
+      .then(result => this.setState(result.data))
+      .then(this.setState({
+        listFlag: !(this.state.listFlag)
+      }));
   }
   // Populate profile populates the profile page by querying the User table by Id.
   populateProfile(profileRoute) {
@@ -48,11 +54,11 @@ class Profile extends React.Component {
     //   .then(this.setState({
     //     listFlag: !(this.state.listFlag),
     //   }));
-    axios.get(`/api/profile/${profileRoute}`)
-      .then(result => this.setState(result.data))
-      .then(this.setState({
-        
-      }))
+    // axios.get(`/api/profile/${profileRoute}`)
+    //   .then(result => this.setState(result.data))
+    //   .then(this.setState({
+    //     listFlag: !(this.state.listFlag)
+    //   }));
   }
 
   render() {
@@ -87,7 +93,7 @@ class Profile extends React.Component {
         <div className="col-lg-5">
           {this.state.id &&
             <ProfileItemList
-              populateProfile={this.populateProfile.bind(this)}
+              populateProfile={this.populateProfile}
               userId={this.state.id}
               flag={this.state.listFlag}
             />
@@ -98,5 +104,7 @@ class Profile extends React.Component {
     );
   }
 }
+
+
 
 module.exports = Profile;

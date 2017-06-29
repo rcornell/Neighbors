@@ -11,12 +11,23 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       message: null,
-      loginFailed: false
+      loginFailed: false,
+      emailValue: '',
+      passwordValue: ''
     };
     this.clearField = () => {
-      this.email.value = '';
-      this.password.value = '';
+      // this.email.value = '';
+      // this.password.value = '';
+      this.setState({
+        emailValue: '',
+        passwordValue: ''
+      });
+      
     };
+    this.updatePasswordValue = this.updatePasswordValue.bind(this);
+    this.updateEmailValue = this.updateEmailValue.bind(this);
+
+    
     this.fieldSubmit = (e) => {
       e.preventDefault();
       // const info = {
@@ -46,8 +57,8 @@ class LoginForm extends React.Component {
       //     }
       //   });
       axios.post('/login', {
-        email: this.email.value,
-        password: this.password.value
+        email: this.state.emailValue,
+        password: this.state.passwordValue
       })
         .then((response) => {
           if (!response.data.success) {
@@ -57,7 +68,7 @@ class LoginForm extends React.Component {
           } else {
             this.props.appMethods.updateUser(response.data.profile);
             this.props.loginMethods.login(response.data.profile.id);
-            this.clearField();
+            // this.clearField();
           }
         })
         .catch((err) => {
@@ -68,6 +79,15 @@ class LoginForm extends React.Component {
         });
     };
   }
+
+  updateEmailValue(e) {
+    this.setState({emailValue: e.target.value});
+  }
+  updatePasswordValue(e) {
+    this.setState({passwordValue: e.target.value});
+  }
+
+
   render() {
     let message = null;
     const loginFailedAlert = this.state.loginFailed 
@@ -89,18 +109,16 @@ class LoginForm extends React.Component {
               <label htmlFor="email">Email</label>
               <input
                 type="text"
-                name="email"
+                onChange={this.updateEmailValue}
                 className="form-control userEmail"
-                ref={(input) => { this.email = input; }}
               />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
                 type="text"
-                name="password"
+                onChange={this.updatePasswordValue}
                 className="form-control userPassword"
-                ref={(input) => { this.password = input; }}
               />
             </div>
             <button type="submit" className="btn btn-small submitLoginButton">Login</button>
