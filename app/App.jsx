@@ -80,7 +80,7 @@ class App extends React.Component {
     const logButton = this.state.loggedIn
       ? (<button
         onClick={this.methods.logout}
-        className="btn"
+        className="btn loginButton"
       >Logout</button>)
       : (<button
         onClick={this.methods.openLoginPage}

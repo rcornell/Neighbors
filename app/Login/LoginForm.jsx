@@ -3,6 +3,7 @@
 // Popup form for signing up with email
 // called by Login.jsx
 const React = require('react');
+import axios from 'axios';
 
 
 class LoginForm extends React.Component {
@@ -17,29 +18,42 @@ class LoginForm extends React.Component {
     };
     this.fieldSubmit = (e) => {
       e.preventDefault();
-      const info = {
+      // const info = {
+      //   email: this.email.value,
+      //   password: this.password.value,
+      // };
+      // fetch('/login', {
+      //   credentials: 'same-origin',
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-type': 'application/json',
+      //   },
+      //   body: JSON.stringify(info),
+      // })
+      //   .then((resp) => {
+      //     console.log('pre-json', resp);
+      //     return resp.json();
+      //   })
+      //   .then((resp) => {
+      //     if (!resp.success) {
+      //       this.setState({ message: resp.message });
+      //     } else {
+      //       console.log('pos', resp);
+      //       this.props.appMethods.updateUser(resp.profile);
+      //       this.props.loginMethods.login(resp.profile.id);
+      //       this.clearField();
+      //     }
+      //   });
+      axios.post('/login', {
         email: this.email.value,
-        password: this.password.value,
-      };
-      fetch('/login', {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(info),
+        password: this.password.value
       })
-        .then((resp) => {
-          console.log('pre-json', resp);
-          return resp.json();
-        })
-        .then((resp) => {
-          if (!resp.success) {
-            this.setState({ message: resp.message });
+        .then((response) => {
+          if (!response.data.success) {
+            this.setState({ message: response.data.message });
           } else {
-            console.log('pos', resp);
-            this.props.appMethods.updateUser(resp.profile);
-            this.props.loginMethods.login(resp.profile.id);
+            this.props.appMethods.updateUser(response.data.profile);
+            this.props.loginMethods.login(response.data.profile.id);
             this.clearField();
           }
         });
