@@ -11,6 +11,7 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       message: null,
+      loginFailed: false
     };
     this.clearField = () => {
       this.email.value = '';
@@ -50,17 +51,31 @@ class LoginForm extends React.Component {
       })
         .then((response) => {
           if (!response.data.success) {
-            this.setState({ message: response.data.message });
+            this.setState({
+              message: response.data.message
+            });
           } else {
             this.props.appMethods.updateUser(response.data.profile);
             this.props.loginMethods.login(response.data.profile.id);
             this.clearField();
           }
+        })
+        .catch((err) => {
+          console.log('Error at login: ', err);
+          this.setState({
+            loginFailed: true
+          })
         });
     };
   }
   render() {
     let message = null;
+    const loginFailedAlert = this.state.loginFailed 
+      ? <h3
+          className="loginFailedAlert">
+          Invalid username or password
+        </h3>
+      : null;
     if (this.state.message) {
       message = <div className="alert alert-danger">{this.state.message}</div>;
     }
@@ -89,6 +104,7 @@ class LoginForm extends React.Component {
               />
             </div>
             <button type="submit" className="btn btn-small submitLoginButton">Login</button>
+            {loginFailedAlert}
           </form>
           <hr />
           <p>Already have an account?

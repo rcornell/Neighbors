@@ -1,5 +1,6 @@
 const Nightmare = require('nightmare');
 const assert = require('assert');
+const expect = require('chai').expect;
 
 
 describe('interact with ShareIn user interface', function() {
@@ -7,7 +8,7 @@ describe('interact with ShareIn user interface', function() {
 
   let nightmare = null;
   beforeEach(() => {
-    nightmare = new Nightmare();
+    nightmare = new Nightmare({show: true});
   });
 
   describe('load the page successfully', function() {
@@ -33,6 +34,24 @@ describe('interact with ShareIn user interface', function() {
         .end()
         .then(function(result) { done() })
         .catch(done);
+    })
+  })
+
+  describe('given bad login data', function() {
+    it('should fail to log in', function(done) {
+      nightmare.goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'admiral.adama@gmail.com')
+        .type('.userPassword', 'starbuckPlzStop')
+        .click('.submitLoginButton')
+        .wait(500)
+        .visible('.loginFailedAlert')
+        .end()
+        .then((result) => {
+          expect(result).to.be.true;
+          done();
+        });
     })
   })
 
