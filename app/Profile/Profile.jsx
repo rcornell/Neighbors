@@ -10,6 +10,7 @@ const AddStuff = require('./addStuff.jsx');
 const Bank = require('./bank.jsx');
 const ProfileItemList = require('./profileItemList.jsx');
 import Comments from './PublicProfile/publicComments.jsx';
+import axios from 'axios';
 
 
 class Profile extends React.Component {
@@ -41,12 +42,17 @@ class Profile extends React.Component {
   }
   // Populate profile populates the profile page by querying the User table by Id.
   populateProfile(profileRoute) {
-    fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
-      .then(profile => profile.json())
-      .then(json => this.setState(json)) //This is a problem
+    // fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
+    //   .then(profile => profile.json())
+    //   .then(json => this.setState(json)) //This is a problem
+    //   .then(this.setState({
+    //     listFlag: !(this.state.listFlag),
+    //   }));
+    axios.get(`/api/profile/${profileRoute}`)
+      .then(result => this.setState(result.data))
       .then(this.setState({
-        listFlag: !(this.state.listFlag),
-      }));
+        
+      }))
   }
 
   render() {

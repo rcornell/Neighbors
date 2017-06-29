@@ -12,6 +12,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 const React = require('react');
 const UserItemEntry = require('./userItemEntry.jsx');
 const BorrowedItemEntry = require('./borrowedItemEntry.jsx');
+import axios from 'axios';
 
 class ProfileItemList extends React.Component {
   constructor(props) {
@@ -40,18 +41,32 @@ class ProfileItemList extends React.Component {
   fetchUserItems(route) {
     console.log('In fetchUserItems, route is: ', route);
     console.log('In fetchUserItems, "this" is: ', this);
-    fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
-      .then(items => items.json())
-      .then(json => this.setState({
-        userItems: json,
-      }));
+    // fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
+    //   .then(items => items.json())
+    //   .then(json => this.setState({
+    //     userItems: json,
+    //   }));
+    axios.get(`/api/userItems/${route}`)
+      .then((results) => {
+        console.log('In fetchUserItems, data is: ', results.data);
+        this.setState({
+          userItems: results.data
+        });
+      });
   }
   fetchBorrowedItems(route) {
-    fetch(`/api/borrowedItems/${route}`, { credentials: 'same-origin' })
-      .then(items => items.json())
-      .then(json => this.setState({
-        borrowedItems: json,
-      }));
+    // fetch(`/api/borrowedItems/${route}`, { credentials: 'same-origin' })
+    //   .then(items => items.json())
+    //   .then(json => this.setState({
+    //     borrowedItems: json,
+    //   }));
+    axios.get(`/api/borrowedItems/${route}`)
+      .then((results) => {
+        console.log('In fetchBorrowedItems, data is: ', results.data);
+        this.setState({
+          borrowedItems: results.data
+        });
+      });
   }
   render() {
     return (

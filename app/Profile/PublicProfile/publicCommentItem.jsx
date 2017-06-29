@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentTool from './publicCommentTool.jsx'
+import axios from 'axios';
 
 class CommentItem extends React.Component {
   constructor(props) {
@@ -20,16 +21,19 @@ class CommentItem extends React.Component {
     this.setState({isEditing: !this.state.isEditing});
   }
   submitEdit(e) {
-    fetch('/api/comments', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        commentId: this.props.comment.id,
-        message:this.state.newComment
-      })
+    // fetch('/api/comments', {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   credentials: 'same-origin',
+    //   body: JSON.stringify({
+    //     commentId: this.props.comment.id,
+    //     message:this.state.newComment
+    //   })
+    axios.put('/api/comments', {
+      commentId: this.props.comment.id,
+      message:this.state.newComment
     })
       .then(() => {
         console.log('UPDATE SENT');

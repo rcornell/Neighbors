@@ -7,6 +7,7 @@
 const PublicProfile = require('./Profile/PublicProfile/PublicProfile.jsx');
 const PrivateProfile = require('./Profile/Profile.jsx');
 const React = require('react');
+import axios from 'axios';
 
 class ProfileChecker extends React.Component {
   constructor(props) {
@@ -18,19 +19,27 @@ class ProfileChecker extends React.Component {
     console.log('Entering getComments');
     const profileId = +this.props.params.match.params.id;
     console.log('Getting comments for profile: ', profileId);
-    fetch(`/api/comments?id=${profileId}`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-    })
-      .then((results) => results.json())
+    // fetch(`/api/comments?id=${profileId}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   credentials: 'same-origin',
+    // })
+    //   .then((results) => results.json())
+    //   .then((results) => {
+    //     console.log('Received getComments results: ', results);
+    //     results.reverse();
+    //     this.setState({ 
+    //       comments: results
+    //     });
+    //   })
+    axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
-        console.log('Received getComments results: ', results);
-        results.reverse();
+        console.log('Received getComments results: ', results.data);
+        results.data.reverse();
         this.setState({ 
-          comments: results
+          comments: results.data
         });
       })
   }

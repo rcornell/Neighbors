@@ -52,7 +52,7 @@ class App extends React.Component {
         if (json.data.success) {
           Auth.isAuthenticated = true;
           this.methods.loggedIn();
-          this.setState({ profile: json.profile });
+          this.setState({ profile: json.data.profile });
         }
       });
     // fetch('/checkSession', { credentials: 'same-origin' })

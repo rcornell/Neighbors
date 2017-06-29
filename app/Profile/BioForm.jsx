@@ -7,6 +7,7 @@
 // state.editing back to false, causing a rerender back to the BioText. 
 
 const React = require('react');
+import axios from 'axios';
 
 class BioForm extends React.Component {
   constructor(props) {
@@ -24,13 +25,24 @@ class BioForm extends React.Component {
         zip: this.zip.value,
         user_id: this.props.userId,
       };
-      fetch('/api/updateUser', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify(info),
+      // fetch('/api/updateUser', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-type': 'application/json',
+      //   },
+      //   credentials: 'same-origin',
+      //   body: JSON.stringify(info),
+      // })
+      //   .then(this.props.toggleEditing);
+      axios.post('/api/updateUser', {
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        email: this.email.value,
+        bio: this.bio.value,
+        city: this.city.value,
+        state: this.state.value,
+        zip: this.zip.value,
+        user_id: this.props.userId,
       })
         .then(this.props.toggleEditing);
     };
