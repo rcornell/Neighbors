@@ -38,7 +38,7 @@ class Login extends React.Component {
         <p>Are you the keymaster?</p>
 
         <button
-          className="btn btn-default"
+          className="btn btn-default localLoginButton"
           onClick={e => this.methods.chooseLogin(e)}
         >
           Local Login

@@ -80,11 +80,11 @@ class App extends React.Component {
     const logButton = this.state.loggedIn
       ? (<button
         onClick={this.methods.logout}
-        className="btn loginButton"
+        className="btn logoutButton"
       >Logout</button>)
       : (<button
         onClick={this.methods.openLoginPage}
-        className="btn"
+        className="btn loginButton"
       >Login</button>);
     // conditionally render loginBox
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;

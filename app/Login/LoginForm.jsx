@@ -75,7 +75,7 @@ class LoginForm extends React.Component {
               <input
                 type="text"
                 name="email"
-                className="form-control"
+                className="form-control userEmail"
                 ref={(input) => { this.email = input; }}
               />
             </div>
@@ -84,11 +84,11 @@ class LoginForm extends React.Component {
               <input
                 type="text"
                 name="password"
-                className="form-control"
+                className="form-control userPassword"
                 ref={(input) => { this.password = input; }}
               />
             </div>
-            <button type="submit" className="btn btn-small">Login</button>
+            <button type="submit" className="btn btn-small submitLoginButton">Login</button>
           </form>
           <hr />
           <p>Already have an account?
