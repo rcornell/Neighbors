@@ -189,8 +189,9 @@ exports.addItems = (req, res) => {
 };
 
 exports.deleteItems = (req, res) => {
+  var itemID = req.body.item_id;
+  console.log('deleteItems controller req.body.item_id:', itemID);
   console.log('deleteItems controller reached');
-  console.log('deleteItems req.body:', req.body);
   res.sendStatus(200);
   
   // Item.destroy({

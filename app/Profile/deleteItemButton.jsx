@@ -31,18 +31,18 @@ class DeleteItemButton extends React.Component {
     };
     
     // console.log(`/api/items/${this.state.item_id}`);
-    axios.delete('/api/items', {
-      item_id: this.state.item_id
-    });
+    // axios.delete('/api/items', {
+    //   item_id: this.state.item_id
+    // });
 
-    // fetch('/api/items', {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-type': 'application/json'
-    //   },
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(info),
-    // })
+    fetch('/api/items', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(info),
+    })
      // .then(() => this.props.deleteItemFromList(this.state.item_id))
   }
   

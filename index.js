@@ -35,12 +35,14 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(controller.publicRoutes, express.static(path.join(__dirname, '/public')));
+// app.use(morgan('dev'));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 require('./server/routes.js')(app, passport);
+app.use(controller.publicRoutes, express.static(path.join(__dirname, '/public')));
+
 
 app.listen(port);
 
 console.log(`Neighborly running on: ${port}`);
+
