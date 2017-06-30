@@ -70,7 +70,7 @@ class PublicProfile extends React.Component {
           }
         </div>
         <div>
-          <Messages self={this.props.self} friend={this.props.id} />
+          <Messages self={this.props.self} friend={this.props.id} allProps={this.props.allProps}/>
         </div>
       </div>
 

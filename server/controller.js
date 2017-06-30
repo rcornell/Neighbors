@@ -293,35 +293,19 @@ exports.findRoom = (data) => {
     })
 }
 
-// exports.getMessages = (roomObject) => {
-//   return Message.findAll({
-//     where: {room_id: roomObject.roomId}
-//   }).then((messages) => messages.map(message => message.get({ plain:true }))
-//   .then(messages => {
-//     console.log('getMessages: ', messages)
-//     return messages 
-//   })
-// }
-
 exports.getMessages = (roomObject) => {
-  console.log('+++roomObject.roomId: ', roomObject.roomId)
   return Message.findAll({
-    where: {room_id: roomObject.roomId},
-    raw: true
+    where: {room_id: roomObject.id}
   })
-  // .then(messages => {
-  //   console.log('+++getMessages #1: ', messages)
-    // messages[0].get({plain:true})})
-    // messages.map(message => {return message.get({plain:true})})})
-    // messages.map(message => {return JSON.stringify(message)})})
-    // messages.map(message => {return message.message})})
-  .then(messageArray => {
-    console.log('+++getMessages #2: ', messageArray)
-    // return messageArray 
-    return messageArray.map(messageObject => {
-      return messageObject.message
-    })
+  .then((messageArray) => {
+    return messageArray
+  }).then((messages) => {
+    console.log('+++getMessages #3: ', messages)
+    return messages
   })
 }
 
-exports.saveMessages = (req, res) => {}
+exports.saveMessages = (message) => {
+  Message.create(message)
+    .then(console.log('+++saveMessages, message: ', message))
+}

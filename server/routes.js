@@ -34,6 +34,6 @@ module.exports = (app) => {
 
   // SOCKET ROUTES
   // app.post('/api/findRoom', controller.findRoom);
-  app.post('/api/messages', controller.saveMessages);
-  app.get('/api/messages', controller.getMessages);
+  // app.post('/api/messages', controller.saveMessages);
+  // app.get('/api/messages', controller.getMessages);
 };

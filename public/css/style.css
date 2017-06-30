@@ -1763,3 +1763,16 @@ i.icon-white {
 		width: 100%;
 	}
 }
+
+
+/* =========================================================
+Team Neighbor's CSS Code
+============================================================ */
+
+.currentUser {
+  background: pink;
+}
+
+.notCurrentUser {
+  background: lightblue;
+}
