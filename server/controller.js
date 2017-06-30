@@ -1,18 +1,20 @@
 // put 2 and 2 together
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
+const Session = require('../db/models/session.js');
+const Room = require('../db/models/room.js');
+const Message = require('../db/models/messages.js');
+
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const secret = require('../private/apiKeys.js'); // create file matching this route to hold relevant api keys
-const Session = require('../db/models/session');
 
 const sid = process.env.sid || secret.sid;
 const authorizationCode = process.env.authorizationCode || secret.authorizationCode;
 const twilioNumber = process.env.twilioNumber || secret.twilioNumber;
 const myNumber = process.env.myNumber || secret.myNumber;
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || secret.GOOGLE_API_KEY;
-
 
 exports.publicRoutes = [
   '/',
@@ -21,25 +23,27 @@ exports.publicRoutes = [
   '/login',
   '/signup',
 ];
+
 exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     Session.findOne({
       where: { sid: req.sessionID },
       include: [{ model: User, as: 'User' }],
     })
-      .then((sessionSave) => {
-        if (sessionSave) {
-          if (sessionSave.userId) {
-            return res.send({ success: true, message: 'authentication succeeded', profile: sessionSave.User });
-          }
-          return res.send({ success: false, message: 'session exists but userId is not assigned', profile: null });
+    .then((sessionSave) => {
+      if (sessionSave) {
+        if (sessionSave.userId) {
+          return res.send({ success: true, message: 'authentication succeeded', profile: sessionSave.User });
         }
-        return res.send({ success: false, message: 'no session found', profile: null });
-      });
+        return res.send({ success: false, message: 'session exists but userId is not assigned', profile: null });
+      }
+      return res.send({ success: false, message: 'no session found', profile: null });
+    });
   } else {
     next();
   }
 };
+
 const sendMessage = (item) => {
   const itemName = item.title;
   const userID = item.borrower.fullName;
@@ -48,7 +52,6 @@ const sendMessage = (item) => {
     Authorization: authorizationCode,
     'Content-Type': 'application/x-www-form-urlencoded',
   };
-
   const options = {
     url: `https://www.@api.twilio.com/2010-04-01/Accounts/${sid}/Messages`,
     method: 'POST',
@@ -61,6 +64,7 @@ const sendMessage = (item) => {
     }
   });
 };
+
 exports.getProfile = (req, res) => {
   User.findById(req.params.id)
     .then((profile) => {
@@ -88,6 +92,7 @@ exports.getUserItems = (req, res) => {
       return 'getUserItems promise resolved';
     });
 };
+
 exports.returnItem = (req, res) => {
   const itemId = req.params.id;
   Item.findById(itemId)
@@ -101,6 +106,7 @@ exports.returnItem = (req, res) => {
     .then(() => res.status(202).send())
     .catch(() => res.status(304).send('error'));
 };
+
 exports.getBorrowedItems = (req, res) => {
   Item.findAll({
     where: {
@@ -117,6 +123,7 @@ exports.getBorrowedItems = (req, res) => {
       return 'getBorrowedItems promise resolved';
     });
 };
+
 exports.addItems = (req, res) => {
   Item.create({
     title: req.body.title,
@@ -129,6 +136,7 @@ exports.addItems = (req, res) => {
       res.status(500).send('error adding new item')
     });
 };
+
 exports.borrow = (req, res) => {
   Item.update({
     borrower_id: req.body.userID,
@@ -154,6 +162,7 @@ exports.borrow = (req, res) => {
     .then(() => res.status(201).send())
     .catch(() => res.status(500).send('error borrowing item'));
 };
+
 exports.search = (req, res) => {
   const promiseQueue = [];
   const query = req.query.item;
@@ -176,6 +185,7 @@ exports.search = (req, res) => {
       res.status(500).send();
     });
 };
+
 exports.handleLogin = (req, res, next) => {
   passport.authenticate('local-login', (err, user) => {
     if (err) {
@@ -216,10 +226,12 @@ exports.handleSignup = (req, res, next) => {
     });
   })(req, res, next);
 };
+
 exports.handleLogout = (req, res) => {
   Session.destroy({ where: { sid: req.sessionID } });
   res.redirect('/');
 };
+
 exports.checkAuth = (req, res, next) => {
   if (req.session && req.session.userId) {
     next();
@@ -227,6 +239,7 @@ exports.checkAuth = (req, res, next) => {
     res.redirect('/');
   }
 };
+
 exports.updateUser = (req, res) => {
   User.update({
     city: req.body.city,
@@ -240,6 +253,7 @@ exports.updateUser = (req, res) => {
   }, {where : {id: req.body.user_id} })
   .then((User) => res.send(User))
 };
+
 exports.updateRating = (req, res) => {
   const {id, rating } = (req.body);
   User.findById(id)
@@ -252,3 +266,62 @@ exports.updateRating = (req, res) => {
     .catch(() => res.status(500).send());
 }
 
+exports.findRoom = (data) => {
+  console.log('+++findRoom executed!!!', data)
+  return Room.findOrCreate({
+      where: {
+        $or: [
+          {
+            self_id: data.self,
+            friend_id: data.friend
+          },
+          {
+            self_id: data.friend,
+            friend_id: data.self
+          }
+        ]
+      },
+      defaults: {
+        roomId: data.self + '-' + data.friend,
+        self_id: data.self,
+        friend_id: data.friend  
+      } 
+    }).then((room) => room[0].get({ plain:true }))
+    .then(roomObject => {
+      console.log('+++roomObject: ', roomObject)
+      return roomObject
+    })
+}
+
+// exports.getMessages = (roomObject) => {
+//   return Message.findAll({
+//     where: {room_id: roomObject.roomId}
+//   }).then((messages) => messages.map(message => message.get({ plain:true }))
+//   .then(messages => {
+//     console.log('getMessages: ', messages)
+//     return messages 
+//   })
+// }
+
+exports.getMessages = (roomObject) => {
+  console.log('+++roomObject.roomId: ', roomObject.roomId)
+  return Message.findAll({
+    where: {room_id: roomObject.roomId},
+    raw: true
+  })
+  // .then(messages => {
+  //   console.log('+++getMessages #1: ', messages)
+    // messages[0].get({plain:true})})
+    // messages.map(message => {return message.get({plain:true})})})
+    // messages.map(message => {return JSON.stringify(message)})})
+    // messages.map(message => {return message.message})})
+  .then(messageArray => {
+    console.log('+++getMessages #2: ', messageArray)
+    // return messageArray 
+    return messageArray.map(messageObject => {
+      return messageObject.message
+    })
+  })
+}
+
+exports.saveMessages = (req, res) => {}

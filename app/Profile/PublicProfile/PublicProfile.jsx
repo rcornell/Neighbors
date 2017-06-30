@@ -5,6 +5,7 @@
 const React = require('react');
 const PublicProfileBio = require('./publicProfileBio.jsx');
 const PublicProfileItemList = require('./publicProfileItemList.jsx');
+const Messages = require('./Messages.jsx');
 
 
 class PublicProfile extends React.Component {
@@ -67,6 +68,9 @@ class PublicProfile extends React.Component {
               userId={this.state.id}
             />
           }
+        </div>
+        <div>
+          <Messages self={this.props.self} friend={this.props.id} />
         </div>
       </div>
 

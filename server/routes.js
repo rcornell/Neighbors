@@ -10,7 +10,6 @@ module.exports = (app) => {
   // RESULTS ROUTES
   app.get('/search', controller.search);
 
-
   // AUTH ROUTES
   app.use('/login', express.static(path.join(__dirname, '/public')));
   app.use('/signup', express.static(path.join(__dirname, '/public')));
@@ -32,13 +31,9 @@ module.exports = (app) => {
   app.put('/api/ratings', controller.updateRating);
   app.post('/api/updateUser', controller.updateUser);
   app.post('/api/borrow', controller.borrow);
+
+  // SOCKET ROUTES
+  // app.post('/api/findRoom', controller.findRoom);
+  app.post('/api/messages', controller.saveMessages);
+  app.get('/api/messages', controller.getMessages);
 };
-
-
-// const app = require('../index.js');
-// // const http = require('http');
-// const Mailgun = require('mailgun-js');
-// // eventually move this to private
-// const apiKey = 'MAILGUN-API-KEY';
-// const domain = YOUR-DOMAIN.com';
-// const fromWho = your@email.com';
