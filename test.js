@@ -3,7 +3,7 @@ const assert = require('assert');
 const expect = require('chai').expect;
 
 
-describe('interact with ShareIn user interface', function() {
+describe('', function() {
   this.timeout('30s');
 
   let nightmare = null;
@@ -11,7 +11,7 @@ describe('interact with ShareIn user interface', function() {
     nightmare = new Nightmare({show: true, typeInterval: 100}).viewport(800,600);
   });
 
-  xdescribe('load the page successfully', function() {
+  xdescribe('Load the page successfully: ', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -21,7 +21,7 @@ describe('interact with ShareIn user interface', function() {
   })
 
 
-  describe('log in to the site', function() {
+  xdescribe('Log in to the site: ', function() {
     it('should click the login button and enter credentials', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -37,7 +37,7 @@ describe('interact with ShareIn user interface', function() {
     })
   })
 
-  xdescribe('given bad login data', function() {
+  xdescribe('Given bad login data: ', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -56,10 +56,13 @@ describe('interact with ShareIn user interface', function() {
     })
   })
 
-  describe('Should interact with user comments', function() {
+  describe('Interact with user comments: ', function() {
 
-    xit('should leave a comment', function(done) {
+    it('should leave a comment', function(done) {
       nightmare
+        .on('console', function(type, input, message) {
+          console.log(input, message);
+        })
         .goto('http://localhost:8080')
         .click('.loginButton')
         .click('.localLoginButton')
@@ -88,7 +91,7 @@ describe('interact with ShareIn user interface', function() {
 
     });
 
-    xit('should edit a comment', function(done) {
+    it('should edit a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -118,7 +121,7 @@ describe('interact with ShareIn user interface', function() {
         .catch(done);
     });
 
-    xit('should delete a comment', function(done) {
+    it('should delete a comment', function(done) {
       const previousTopComment = '';
       nightmare
         .goto('http://localhost:8080')
@@ -149,10 +152,13 @@ describe('interact with ShareIn user interface', function() {
         .catch(done);
     });
 
+  })
+
+  xdescribe('Borrow and review items: ', function() {
 
     //BORROW AND RETURN
 
-    it('should borrow an item and add it to your "borrowed" items', function(done) {
+    xit('should borrow an item and add it to your "borrowed" items', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -164,7 +170,7 @@ describe('interact with ShareIn user interface', function() {
         .type('.searchInput', 'Pikachu')
         .type('.zipInput', '11217')
         .click('.searchButton')
-        .wait(2000)
+        .wait(4000)
         .click('.borrowButton')
         .wait(2000)
         .click('a#gotoProfileButton')
@@ -172,7 +178,7 @@ describe('interact with ShareIn user interface', function() {
         .click('#react-tabs-2')
         .wait(500)
         .evaluate(function() {
-          return document.querySelectorAll('.borrowedItemTitle').map(node => node.innerText);
+          return Array.from(document.querySelectorAll('.borrowedItemTitle')).map(node => node.innerText);
         })
         .then((textArray) => {
           expect(textArray.includes('Pikachu')).to.be.true;
@@ -181,7 +187,7 @@ describe('interact with ShareIn user interface', function() {
         .catch(done)
     });
 
-    it('should confirm that an item was returned to the owner', function(done) {
+    xit('should confirm that an item was returned to the owner', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -191,11 +197,17 @@ describe('interact with ShareIn user interface', function() {
         .click('.submitLoginButton')
         .wait(500)
         .click('a#gotoProfileButton')
-        .wait(1000)
+        .wait(2000)
         .click('.returnItemButton')
-        .wait(1000)
+        .wait(2000)
+        .click('.modal-body span span span')
+        .wait(2000)
+        .visible('.returnItemButton')
         .end()
-        .then((result) => { done() })
+        .then((result) => { 
+          expect(result).to.be.false;
+          done() 
+        })
         .catch(done);
     });
 
@@ -212,7 +224,7 @@ describe('interact with ShareIn user interface', function() {
         .type('.searchInput', 'Pikachu')
         .type('.zipInput', '11217')
         .click('.searchButton')
-        .wait(2000)
+        .wait(4000)
         .click('.borrowButton')
         .wait(2000)
         .click('a#gotoProfileButton')
@@ -220,17 +232,20 @@ describe('interact with ShareIn user interface', function() {
         .click('#react-tabs-2')
         .wait(500)
         .evaluate(function() {
-          return document.querySelectorAll('.borrowedItemTitle').map(node => node.innerText);
+          return Array.from(document.querySelectorAll('.borrowedItemTitle')).map(node => node.innerText);
         })
         .then((textArray) => {
           expect(textArray.includes('Pikachu')).to.be.true;
           done();
         })
-        .catch(done);
+        .catch(done)
     });
 
     it('should confirm that an item was returned to the owner', function(done) {
       nightmare
+        .on('console', function(type, input, message) {
+          console.log(input, message);
+        })
         .goto('http://localhost:8080')
         .click('.loginButton')
         .click('.localLoginButton')
@@ -239,16 +254,20 @@ describe('interact with ShareIn user interface', function() {
         .click('.submitLoginButton')
         .wait(500)
         .click('a#gotoProfileButton')
-        .wait(1000)
+        .wait(3000)
         .click('.returnItemButton')
-        .wait(1500)
-        .click('img.icon')
-        .wait(1500)
+        .wait(1000)  
         .type('.commentInput', 'Test review')
         .click('.commentSubmitButton')
-        .wait(1500)
+        .wait(2000)
+        .click('.modal-body span span span')
+        .wait(2000)
+        .visible('.returnItemButton')
         .end()
-        .then((result) => {done()})
+        .then((result) => { 
+          expect(result).to.be.false;
+          done() 
+        })
         .catch(done);
     });
 
@@ -262,18 +281,12 @@ describe('interact with ShareIn user interface', function() {
         .type('.userPassword', 'p')
         .click('.submitLoginButton')
         .wait(500)
-        .type('.searchInput', 'Pikachu')
-        .type('.zipInput', '11217')
-        .click('.searchButton')
-        .wait(2000)
-        .click('.borrowButton')
-        .wait(2000)
         .click('a#gotoProfileButton')
         .wait(1000)
         .evaluate(() => {
           const obj = {};
-            obj.message = document.querySelector('.commentMessage').innerText;
-            obj.username = document.querySelector('.commentSubmitter').innerText;
+          obj.message = document.querySelector('.commentMessage').innerText;
+          obj.username = document.querySelector('.commentSubmitter').innerText;
           return obj;
         })
         .then(obj => {

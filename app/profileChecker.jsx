@@ -47,13 +47,19 @@ class ProfileChecker extends React.Component {
         });
       })
   }
-  handleCommentSubmit(e) {
+  handleCommentSubmit(e, ownerId, borrowerId) {
     e.preventDefault();
+    console.log('In handleCommentSubmit, args are: ', e, ownerId, borrowerId);
     this.setState({ currentComment: '' });
+    
+    const submitterId = ownerId ? ownerId : this.props.id;
+    const targetId = borrowerId ? borrowerId : this.props.params.match.params.id;
+    const message = this.state.currentComment;
+
     const messageData = {
-      submitterId: this.props.id,
-      targetId: this.props.params.match.params.id,
-      message: this.state.currentComment
+      submitterId,
+      targetId,
+      message
     };
     console.log('Sending data: ', messageData);
 
@@ -72,7 +78,7 @@ class ProfileChecker extends React.Component {
   }
   render() {
     if (this.props.id === Number(this.props.params.match.params.id)) {
-      console.log('In PrivateProfile return, this.props is: ', this.props);
+      // console.log('In PrivateProfile return, this.props is: ', this.props);
       return (
         <PrivateProfile
           currentComment={this.state.currentComment}
@@ -83,7 +89,7 @@ class ProfileChecker extends React.Component {
         />
       );
     }
-    console.log('In PublicProfile return, this.props is: ', this.props);
+    // console.log('In PublicProfile return, this.props is: ', this.props);
     return (
       <PublicProfile
         updateComment={this.updateComment}

@@ -39,10 +39,10 @@ class ProfileItemList extends React.Component {
   //   return true;
   // }
   fetchUserItems(route) {
-    const url = `/api/userItems/${route}`;
+    // const url = `/api/userItems/${route}`;
     // console.log('In fetchUserItems, route is: ', route);
     // console.log('In fetchUserItems, "this" is: ', this);
-    console.log('In fetchUserItems, url is', url);
+    // console.log('In fetchUserItems, url is', url);
     // fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
     //   .then(items => items.json())
     //   .then(json => this.setState({
@@ -50,7 +50,7 @@ class ProfileItemList extends React.Component {
     //   }));
     axios.get(url)
       .then((results) => {
-        console.log('In fetchUserItems, data is: ', results.data);
+        // console.log('In fetchUserItems, data is: ', results.data);
         this.setState({
           userItems: results.data
         });
@@ -58,7 +58,7 @@ class ProfileItemList extends React.Component {
       .catch((err) => console.log('Error retrieving items: ', err));
   }
   fetchBorrowedItems(route) {
-    console.log('Entering fetchBorrowedItems with route: ', route);
+    // console.log('Entering fetchBorrowedItems with route: ', route);
     const url = `/api/borrowedItems/${route}`;
     
     // fetch(`/api/borrowedItems/${route}`, { credentials: 'same-origin' })
