@@ -14,19 +14,27 @@ const Item = db.define('Item', {
     type: Sequelize.TEXT,
   },
 });
+
 Item.belongsTo(User, {
   as: 'borrower',
   foreignKey: 'borrower_id',
-  constraints: false,
+  constraints: false
 });
-Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id', constraints: false });
-User.hasMany(Item, { foreignKey: 'borrower_id', constraints: false });
-User.hasMany(Item, { foreignKey: 'owner_id', constraints: false });
-User.hasMany(Session, { foreignKey: 'userId', constraints: false });
+
+Item.belongsTo(User, { 
+  as: 'owner', 
+  foreignKey: 'owner_id', 
+  constraints: false 
+});
+
 Session.belongsTo(User, {
   foreignKey: 'userId',
   as: 'User',
-  constraints: false,
+  constraints: false
 });
+
+User.hasMany(Item, { foreignKey: 'borrower_id', constraints: false });
+User.hasMany(Item, { foreignKey: 'owner_id', constraints: false });
+User.hasMany(Session, { foreignKey: 'userId', constraints: false });
 
 module.exports = Item;

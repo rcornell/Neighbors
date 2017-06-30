@@ -7,6 +7,7 @@ const PublicProfileBio = require('./publicProfileBio.jsx');
 const PublicProfileItemList = require('./publicProfileItemList.jsx');
 import CommentForm from './publicCommentForm.jsx';
 import Comments from './publicComments.jsx';
+const Messages = require('./Messages.jsx');
 
 
 class PublicProfile extends React.Component {
@@ -112,6 +113,9 @@ class PublicProfile extends React.Component {
               userId={this.state.id}
             />
           }
+        </div>
+        <div>
+          <Messages self={this.props.self} friend={this.props.id} allProps={this.props.allProps}/>
         </div>
       </div>
     );
