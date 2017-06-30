@@ -11,7 +11,7 @@ describe('interact with ShareIn user interface', function() {
     nightmare = new Nightmare({show: true, typeInterval: 100}).viewport(800,600);
   });
 
-  describe('load the page successfully', function() {
+  xdescribe('load the page successfully', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -37,7 +37,7 @@ describe('interact with ShareIn user interface', function() {
     })
   })
 
-  describe('given bad login data', function() {
+  xdescribe('given bad login data', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -58,7 +58,7 @@ describe('interact with ShareIn user interface', function() {
 
   describe('Should interact with user comments', function() {
 
-    it('should leave a comment', function(done) {
+    xit('should leave a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -88,7 +88,7 @@ describe('interact with ShareIn user interface', function() {
 
     });
 
-    it('should edit a comment', function(done) {
+    xit('should edit a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -118,7 +118,7 @@ describe('interact with ShareIn user interface', function() {
         .catch(done);
     });
 
-    it('should delete a comment', function(done) {
+    xit('should delete a comment', function(done) {
       const previousTopComment = '';
       nightmare
         .goto('http://localhost:8080')
@@ -149,6 +149,140 @@ describe('interact with ShareIn user interface', function() {
         .catch(done);
     });
 
+
+    //BORROW AND RETURN
+
+    it('should borrow an item and add it to your "borrowed" items', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'borrower@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .type('.searchInput', 'Pikachu')
+        .type('.zipInput', '11217')
+        .click('.searchButton')
+        .wait(2000)
+        .click('.borrowButton')
+        .wait(2000)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .click('#react-tabs-2')
+        .wait(500)
+        .evaluate(function() {
+          return document.querySelectorAll('.borrowedItemTitle').map(node => node.innerText);
+        })
+        .then((textArray) => {
+          expect(textArray.includes('Pikachu')).to.be.true;
+          done();
+        })
+        .catch(done)
+    });
+
+    it('should confirm that an item was returned to the owner', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'skicut99@aol.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .click('.returnItemButton')
+        .wait(1000)
+        .end()
+        .then((result) => { done() })
+        .catch(done);
+    });
+
+    //BORROW, RETURN AND REVIEW
+    it('should borrow an item and add it to your "borrowed" items', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'borrower@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .type('.searchInput', 'Pikachu')
+        .type('.zipInput', '11217')
+        .click('.searchButton')
+        .wait(2000)
+        .click('.borrowButton')
+        .wait(2000)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .click('#react-tabs-2')
+        .wait(500)
+        .evaluate(function() {
+          return document.querySelectorAll('.borrowedItemTitle').map(node => node.innerText);
+        })
+        .then((textArray) => {
+          expect(textArray.includes('Pikachu')).to.be.true;
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should confirm that an item was returned to the owner', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'skicut99@aol.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .click('.returnItemButton')
+        .wait(1500)
+        .click('img.icon')
+        .wait(1500)
+        .type('.commentInput', 'Test review')
+        .click('.commentSubmitButton')
+        .wait(1500)
+        .end()
+        .then((result) => {done()})
+        .catch(done);
+    });
+
+
+    it('should have reviews that were submitted by modal', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'borrower@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .type('.searchInput', 'Pikachu')
+        .type('.zipInput', '11217')
+        .click('.searchButton')
+        .wait(2000)
+        .click('.borrowButton')
+        .wait(2000)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .evaluate(() => {
+          const obj = {};
+            obj.message = document.querySelector('.commentMessage').innerText;
+            obj.username = document.querySelector('.commentSubmitter').innerText;
+          return obj;
+        })
+        .then(obj => {
+          expect(obj.message).to.equal('Test review');
+          expect(obj.username).to.equal('First Person');
+          done();
+        })
+        .catch(done);
+    });
 
   })
 

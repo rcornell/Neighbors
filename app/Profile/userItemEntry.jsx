@@ -89,7 +89,7 @@ class UserItemEntry extends React.Component {
               <button onClick={this.changeRoute} className="btn-link">
                 {this.props.borrower}
               </button>
-              <button className="btn btn-primary" onClick={this.toggleReviewSplash}>
+              <button className="btn btn-primary returnItemButton" onClick={this.toggleReviewSplash}>
                 Item Returned?
               </button>
             </div>
