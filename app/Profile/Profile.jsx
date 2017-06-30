@@ -93,6 +93,7 @@ class Profile extends React.Component {
         <div className="col-lg-5">
           {this.state.id &&
             <ProfileItemList
+              handleCommentSubmit={this.props.handleCommentSubmit}
               populateProfile={this.populateProfile}
               userId={this.state.id}
               flag={this.state.listFlag}

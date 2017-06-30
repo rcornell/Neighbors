@@ -28,11 +28,10 @@ class PublicProfile extends React.Component {
       rating: null,
       ratingCount: null,
       createdAt: null,
-      updatedAt: null,
-      currentComment: '' // added empty comments array
+      updatedAt: null
     };
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-    this.updateComment = this.updateComment.bind(this);
+    
+    
     console.log('In PublicProfile, this.props.comments is: ', this.props.comments);
   }
   componentWillMount() {
@@ -46,29 +45,8 @@ class PublicProfile extends React.Component {
       .then(profile => profile.json())
       .then(json => this.setState(json));
   }
-  handleCommentSubmit(e) {
-    e.preventDefault();
-    this.setState({ currentComment: '' });
-    const messageData = {
-      submitterId: this.props.currentUserId,
-      targetId: this.state.id,
-      message: this.state.currentComment
-    };
-    console.log('Sending data: ', messageData);
-
-    fetch('/api/comments', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(messageData),
-    })
-    .then(() => this.props.getComments(this.props.id)); 
-  }
-  updateComment(e) {
-    this.setState({ currentComment: e.target.value });
-  }
+  
+  
   render() {
     return (
       <div className="container">
@@ -98,9 +76,9 @@ class PublicProfile extends React.Component {
           </div>
           <div>
             <CommentForm
-              currentComment={this.state.currentComment} 
-              handleCommentSubmit={this.handleCommentSubmit}
-              updateComment={this.updateComment}
+              currentComment={this.props.currentComment} 
+              handleCommentSubmit={this.props.handleCommentSubmit}
+              updateComment={this.props.updateComment}
             />
           </div>
         </div>
