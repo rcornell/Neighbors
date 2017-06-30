@@ -37,12 +37,6 @@ class ProfileChecker extends React.Component {
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
         let comments = results.data;
-        console.log('Comments is an array: ', Array.isArray(comments));
-
-        console.log('Comments array was: ', JSON.stringify(comments));
-        // comments.reverse();
-        // console.log('Comments array is:', JSON.stringify(comments));
-
         this.setState({ 
           comments
         });
