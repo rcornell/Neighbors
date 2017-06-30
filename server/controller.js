@@ -187,6 +187,25 @@ exports.addItems = (req, res) => {
       res.status(500).send('error adding new item')
     });
 };
+
+// ADDING DELETE BUTTON
+exports.deleteItems = (req, res) => {
+  console.log('deleteItems req.body:', req.body);
+  Item.destroy({
+    where: {
+      userID: req.body.userID
+    }
+  })
+  .then((result) => {
+    console.log('successful deleting item');
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.log('error deleting item');
+    res.sendStatus(500);
+  });
+}
+
 exports.borrow = (req, res) => {
   Item.update({
     borrower_id: req.body.userID,

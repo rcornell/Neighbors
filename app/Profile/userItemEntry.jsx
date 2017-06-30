@@ -8,6 +8,7 @@
 
 import { withRouter } from 'react-router';
 import ReviewSplash from './reviewSplash.jsx';
+import DeleteItemButton from './deleteItemButton.jsx';
 
 const React = require('react');
 
@@ -49,7 +50,7 @@ class UserItemEntry extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-      . then(() => this.returnItem())
+      .then(() => this.returnItem())
       .catch(err => console.log('error updating rating', err));
   }
   render() {
@@ -67,6 +68,9 @@ class UserItemEntry extends React.Component {
             className="media-photo img-responsive"
           />
         </a>
+        <DeleteItemButton 
+          itemID={this.props.itemId}
+        />
         <div className="col-md-6">
           <h4 className="title">{this.props.title}</h4>
           <p className="summary">{this.props.description}</p>
@@ -80,12 +84,12 @@ class UserItemEntry extends React.Component {
               </button>
               <button className="btn btn-primary" onClick={this.toggleReviewSplash}>
                 Item Returned?
-              </button>
+              </button> 
             </div>
           }
         </div>
       </div>
-    );
+    )
   }
 }
 const UserItemEntryWithRouter = withRouter(UserItemEntry);
