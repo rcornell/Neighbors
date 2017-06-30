@@ -5,6 +5,7 @@
 
 
 const React = require('react');
+import axios from 'axios';
 
 class DeleteItemButton extends React.Component {
   constructor(props) {
@@ -15,27 +16,34 @@ class DeleteItemButton extends React.Component {
     }
   }
 
-  deleteItem() {   
-    console.log('deleteItem fired');
-    
+  componentDidMount() {
     this.setState({
       item_id: this.props.itemID
     })
+  }
 
+  deleteItem() {   
+    console.log('deleteItem fired');
+    // console.log('this.props.itemID:', this.props.itemID);    
+    
     const info = {
       item_id: this.state.item_id
     };
     
-    
-    fetch('/api/items', {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(info),
-    })
-     .then(() => this.props.deleteItemFromList(this.state.item_id))
+    // console.log(`/api/items/${this.state.item_id}`);
+    axios.delete('/api/items', {
+      item_id: this.state.item_id
+    });
+
+    // fetch('/api/items', {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-type': 'application/json'
+    //   },
+    //   credentials: 'same-origin',
+    //   body: JSON.stringify(info),
+    // })
+     // .then(() => this.props.deleteItemFromList(this.state.item_id))
   }
   
   render() {

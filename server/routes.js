@@ -28,7 +28,15 @@ module.exports = (app) => {
   app.get('/api/userItems/:userId', controller.checkAuth, controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.checkAuth, controller.getBorrowedItems);
   app.post('/api/items', controller.checkAuth, controller.addItems);
-  app.delete('/api/items', controller.checkAuth, controller.deleteItems);
+
+  // [ORIGINAL] app.delete('/api/items', controller.checkAuth, controller.deleteItems);
+  
+
+  app.put('/api/items', (req, res) => {
+    console.log('Entering delete handler');
+    res.send('HEllO WORLD');
+  });
+
   app.put('/api/items/:id', controller.checkAuth, controller.returnItem);
   app.put('/api/ratings', controller.updateRating);
   app.post('/api/updateUser', controller.updateUser);
