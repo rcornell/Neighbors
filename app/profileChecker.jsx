@@ -21,7 +21,6 @@ class ProfileChecker extends React.Component {
     this.updateComment = this.updateComment.bind(this);
   }
   getComments() {
-    console.log('Entering getComments');
     const profileId = +this.props.params.match.params.id;
     console.log('Getting comments for profile: ', profileId);
     // fetch(`/api/comments?id=${profileId}`, {
@@ -42,6 +41,7 @@ class ProfileChecker extends React.Component {
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
         let comments = results.data;
+        console.log('Comments are: ', comments);
         this.setState({ 
           comments
         });
