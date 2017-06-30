@@ -265,6 +265,7 @@ exports.handleSignup = (req, res, next) => {
     }
     return req.login(user, (loginErr) => {
       if (loginErr) {
+        console.log('Error: ', loginErr);
         return next(loginErr);
       }
       req.session.userId = user.id;

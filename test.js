@@ -8,7 +8,7 @@ describe('interact with ShareIn user interface', function() {
 
   let nightmare = null;
   beforeEach(() => {
-    nightmare = new Nightmare({show: true});
+    nightmare = new Nightmare({show: true, typeInterval: 100}).viewport(800,600);
   });
 
   xdescribe('load the page successfully', function() {
@@ -29,7 +29,7 @@ describe('interact with ShareIn user interface', function() {
         .type('.userEmail', 'rob.cornell@gmail.com')
         .type('.userPassword', 'p')
         .click('.submitLoginButton')
-        .wait(500)
+        .wait(1000)
         .click('.logoutButton')
         .end()
         .then(function(result) { done() })
@@ -57,14 +57,10 @@ describe('interact with ShareIn user interface', function() {
   })
 
   describe('Should interact with user comments', function() {
+
     it('should leave a comment', function(done) {
       nightmare
-        .viewport(1024,720)
         .goto('http://localhost:8080')
-        // .on('console', function(type, input, message) {
-        //   message = message ? message : '';
-        //   console.log(input, message);
-        // })
         .click('.loginButton')
         .click('.localLoginButton')
         .type('.userEmail', 'rob.cornell@gmail.com')
@@ -73,14 +69,42 @@ describe('interact with ShareIn user interface', function() {
         .wait(500)
         .click('a#gotoProfileButton')
         .wait(1000)
-        // .end()
-        // .then(() => { done() })
+        .click('#react-tabs-2')
+        .wait(500)
+        .click('.ownerButton')
+        .wait(500)
+        .type('.commentInput', 'Henry Han is my lord and savior')
+        .click('.commentSubmitButton')
+        .wait(2000)
+        .end()
+        .evaluate(function() {
+          return document.querySelector('.commentMessage').innerText;
+        })
+        .then((text) => {
+          expect(text).to.equal('Henry Han is my lord and savior');
+          done();
+        })
+        .catch(done);
+
+    });
+
+    xit('should edit a comment', function(done) {
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'rob.cornell@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .click('a#gotoProfileButton')
+        .wait(1000)
         .click('#react-tabs-2')
         .wait(500)
         .click('.ownerButton')
         .wait(500)
         .click('.editCommentButton')
-        .type('.editCommentInput', 'Working test')
+        .type('.editCommentInput', 'This is a long comment so I have time to talk')
         .click('.submitEditButton')
         .wait(1000)
         .end()
@@ -88,11 +112,44 @@ describe('interact with ShareIn user interface', function() {
           return document.querySelector('.commentMessage').innerText;
         })
         .then((text) => {
-          expect(text).to.equal('Working test');
+          expect(text).to.equal('This is a long comment so I have time to talk');
           done();
         })
         .catch(done);
-    })
+    });
+
+    it('should delete a comment', function(done) {
+      const previousTopComment = '';
+      nightmare
+        .goto('http://localhost:8080')
+        .click('.loginButton')
+        .click('.localLoginButton')
+        .type('.userEmail', 'rob.cornell@gmail.com')
+        .type('.userPassword', 'p')
+        .click('.submitLoginButton')
+        .wait(500)
+        .click('a#gotoProfileButton')
+        .wait(1000)
+        .click('#react-tabs-2')
+        .wait(500)
+        .click('.ownerButton')
+        .wait(500)
+        .evaluate(function() {
+          previousTopComment = document.querySelector('.commentMessage').innerText;
+        })
+        .click('.deleteCommentButton')
+        .wait(500)
+        .evaluate(function() {
+          return document.querySelector('.commentMessage').innerText;
+        })
+        .then((text) => {
+          expect(text).to.not.equal(previousTopComment);
+          done();
+        })
+        .catch(done);
+    });
+
+
   })
 
 })

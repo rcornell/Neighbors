@@ -36,14 +36,16 @@ class ProfileChecker extends React.Component {
     //   })
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
-        console.log('Received getComments results: ', results.data);
-        results.data.reverse();
+        let comments = results.data;
+        console.log('Comments is an array: ', Array.isArray(comments));
+
+        console.log('Comments array was: ', JSON.stringify(comments));
+        // comments.reverse();
+        // console.log('Comments array is:', JSON.stringify(comments));
+
         this.setState({ 
-          comments: results.data
+          comments
         });
-        setTimeout(function() {
-          console.log('Comments are now: ', this.state.comments);
-        }.bind(this), 1000);
       })
   }
   render() {

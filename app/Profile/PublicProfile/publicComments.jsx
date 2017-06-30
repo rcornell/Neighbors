@@ -26,7 +26,6 @@ class Comments extends React.Component {
         className="toggleAllComments"
         onClick={this.toggleAll}>{showText}
       </p>;
-    console.log('Rendering comments: ', this.props.comments);
     const commentsToShow = this.state.showAll ? this.props.comments : this.props.comments.slice(0,3);
     return (
       <div className="comments"> 

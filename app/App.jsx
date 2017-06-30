@@ -18,7 +18,6 @@ const ProfileChecker = require('./profileChecker.jsx');
 
 import createHistory from 'history/createBrowserHistory';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
