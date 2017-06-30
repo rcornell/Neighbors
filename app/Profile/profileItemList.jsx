@@ -39,7 +39,7 @@ class ProfileItemList extends React.Component {
   //   return true;
   // }
   fetchUserItems(route) {
-    // const url = `/api/userItems/${route}`;
+    const url = `/api/userItems/${route}`;
     // console.log('In fetchUserItems, route is: ', route);
     // console.log('In fetchUserItems, "this" is: ', this);
     // console.log('In fetchUserItems, url is', url);
@@ -84,6 +84,7 @@ class ProfileItemList extends React.Component {
         <TabPanel>
           {this.state.userItems && this.state.userItems.map(item =>
             (<UserItemEntry
+              updateComment={this.props.updateComment}
               handleCommentSubmit={this.props.handleCommentSubmit}
               image={item.image}
               ownerId={item.owner_id}

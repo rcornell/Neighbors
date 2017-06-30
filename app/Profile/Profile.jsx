@@ -94,6 +94,7 @@ class Profile extends React.Component {
           {this.state.id &&
             <ProfileItemList
               handleCommentSubmit={this.props.handleCommentSubmit}
+              updateComment={this.props.updateComment}
               populateProfile={this.populateProfile}
               userId={this.state.id}
               flag={this.state.listFlag}

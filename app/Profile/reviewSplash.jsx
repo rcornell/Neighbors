@@ -3,7 +3,7 @@ import { Modal, ButtonToolbar, Button } from 'react-bootstrap';
 const Rating = require('react-rating');
 import CommentForm from './PublicProfile/publicCommentForm.jsx';
 
-const reviewSplash = ({ showReviewSplash, handleRatingClick, handleCommentSubmit, borrowerId, ownerId }) => (
+const reviewSplash = ({ showReviewSplash, handleRatingClick, handleCommentSubmit, borrowerId, ownerId, updateComment }) => (
   <div>
     <Modal show={showReviewSplash}>
       <Modal.Header>
@@ -20,6 +20,7 @@ const reviewSplash = ({ showReviewSplash, handleRatingClick, handleCommentSubmit
         <CommentForm
           borrowerId={borrowerId}
           ownerId={ownerId}
+          updateComment={updateComment}
           handleCommentSubmit={handleCommentSubmit}/>
       </Modal.Body>
     </Modal>

@@ -71,9 +71,12 @@ class ProfileChecker extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(messageData),
     })
-    .then(() => this.getComments(this.props.params.match.params.id)); 
+    .then(() => {
+      this.getComments(this.props.params.match.params.id)
+    }); 
   }
   updateComment(e) {
+    console.log('Comment is now: ', e.target.value);
     this.setState({ currentComment: e.target.value });
   }
   render() {
@@ -82,6 +85,7 @@ class ProfileChecker extends React.Component {
       return (
         <PrivateProfile
           currentComment={this.state.currentComment}
+          updateComment={this.updateComment}
           handleCommentSubmit={this.handleCommentSubmit}
           getComments={this.getComments}
           comments={this.state.comments}
