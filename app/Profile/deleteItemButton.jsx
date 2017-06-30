@@ -8,34 +8,40 @@ const React = require('react');
 
 class DeleteItemButton extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
+    
     this.state = {
-      item_id: this.props.itemID,
+      item_id: null
+    }
+  }
+
+  deleteItem() {   
+    console.log('deleteItem fired');
+    
+    this.setState({
+      item_id: this.props.itemID
+    })
+
+    const info = {
+      item_id: this.state.item_id
     };
     
-    this.deleteItem = (e) => {
-      e.preventDefault();
     
-      const info = {
-        item_id: itemID
-      };
-    
-      fetch('/api/items', {
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify(info),
-      })
-       .then(() => this.props.deleteItemFromList(this.state.item_id))
-    };
+    fetch('/api/items', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(info),
+    })
+     .then(() => this.props.deleteItemFromList(this.state.item_id))
   }
   
   render() {
     return (
       <div>
-        <button onSubmit={e => this.deleteItem(e)} type="submit" className="btn btn-warning btn-md">Delete Item</button>
+        <button onClick={() => this.deleteItem()} className="btn btn-warning btn-md">Delete Item</button>
       </div>
     );
   }
