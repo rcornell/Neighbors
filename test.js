@@ -283,7 +283,7 @@ describe('', function() {
         .click('.returnItemButton')
         .wait(1000)  
         .type('.commentInput', 'Test review')
-        .click('.commentSubmitButton')
+        .click('.commentModalSubmitButton')
         .wait(2000)
         .click('.modal-body span span span')
         .wait(2000)
