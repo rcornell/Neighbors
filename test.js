@@ -11,7 +11,7 @@ describe('interact with ShareIn user interface', function() {
     nightmare = new Nightmare({show: true, typeInterval: 100}).viewport(800,600);
   });
 
-  xdescribe('load the page successfully', function() {
+  describe('load the page successfully', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -21,7 +21,7 @@ describe('interact with ShareIn user interface', function() {
   })
 
 
-  xdescribe('log in to the site', function() {
+  describe('log in to the site', function() {
     it('should click the login button and enter credentials', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -37,7 +37,7 @@ describe('interact with ShareIn user interface', function() {
     })
   })
 
-  xdescribe('given bad login data', function() {
+  describe('given bad login data', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -88,7 +88,7 @@ describe('interact with ShareIn user interface', function() {
 
     });
 
-    xit('should edit a comment', function(done) {
+    it('should edit a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')

@@ -70,12 +70,15 @@ exports.getComments = (req, res) => {
     include: [
       {model: User, as: 'receiver', attributes: ['fullName']}, 
       {model: User, as: 'sender', attributes: ['fullName']}
+    ],
+    order: [
+      ['createdAt', 'DESC']
     ]
   })
     .then((comments) => {
       // res.sendStatus(200);
-      // console.log('Found comments: ', comments);
-      res.send(comments)
+      console.log('Found comments: ', comments);
+      res.status(200).send(comments)
     })
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }
