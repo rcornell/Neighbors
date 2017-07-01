@@ -308,16 +308,12 @@ describe('', function() {
         .click('.submitLoginButton')
         .wait(500)
         .click('a#gotoProfileButton')
-        .wait(1000)
-        .evaluate(() => {
-          const obj = {};
-          obj.message = document.querySelector('.commentMessage').innerText.split(' ').slice(1,3).join(' ');
-          obj.username = document.querySelector('.commentSubmitter').innerText;
-          return obj;
+        .wait(2000)
+        .evaluate(function() {
+          return document.querySelector('.commentMessage').innerText;
         })
-        .then(obj => {
-          expect(obj.message).to.equal('Test review');
-          expect(obj.username).to.equal('First Person');
+        .then((text) => {
+          expect(text).to.equal('Test review');
           done();
         })
         .catch(done);
