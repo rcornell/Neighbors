@@ -56,6 +56,8 @@ const User = db.define('User', {
     type: Sequelize.INTEGER,
   },
 });
+
+// JC: is there a reason why we use Sync here? 
 User.generateHash = password => bcrypt.hashSync(
   password,
   bcrypt.genSaltSync(8),
@@ -63,6 +65,8 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
+
+// JC: when do we use beforeCreate? 
 User.beforeCreate((user) => { // hook that converts address to long/lat
   const address = `${user.street} ${user.city} ${user.state} ${user.zip}`;
   return googleMapsPromise(address).then(({ lat, lng }) => user.location = [lat, lng]);

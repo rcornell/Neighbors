@@ -10,7 +10,6 @@ module.exports = (app) => {
   // RESULTS ROUTES
   app.get('/search', controller.search);
 
-
   // AUTH ROUTES
   app.use('/login', express.static(path.join(__dirname, '/public')));
   app.use('/signup', express.static(path.join(__dirname, '/public')));
@@ -39,10 +38,3 @@ module.exports = (app) => {
 };
 
 
-// const app = require('../index.js');
-// // const http = require('http');
-// const Mailgun = require('mailgun-js');
-// // eventually move this to private
-// const apiKey = 'MAILGUN-API-KEY';
-// const domain = YOUR-DOMAIN.com';
-// const fromWho = your@email.com';
