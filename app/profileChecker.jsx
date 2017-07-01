@@ -12,28 +12,16 @@ import axios from 'axios';
 class ProfileChecker extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [] };
+    this.state = { comments: [], currentComment: '' };
     this.getComments = this.getComments.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.updateComment = this.updateComment.bind(this);
   }
   getComments() {
     console.log('Entering getComments');
     const profileId = +this.props.params.match.params.id;
     console.log('Getting comments for profile: ', profileId);
-    // fetch(`/api/comments?id=${profileId}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-type': 'application/json',
-    //   },
-    //   credentials: 'same-origin',
-    // })
-    //   .then((results) => results.json())
-    //   .then((results) => {
-    //     console.log('Received getComments results: ', results);
-    //     results.reverse();
-    //     this.setState({ 
-    //       comments: results
-    //     });
-    //   })
+
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
         console.log('Received getComments results: ', results.data);
@@ -46,20 +34,50 @@ class ProfileChecker extends React.Component {
         }.bind(this), 1000);
       })
   }
+  handleCommentSubmit(e) {
+    e.preventDefault();
+    this.setState({ currentComment: '' });
+    const messageData = {
+      submitterId: this.props.id,
+      targetId: this.props.params.match.params.id,
+      message: this.state.currentComment
+    };
+    console.log('Sending data: ', messageData);
+
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(messageData),
+    })
+    .then(() => this.getComments()); 
+  }
+  updateComment(e) {
+    this.setState({ currentComment: e.target.value });
+  }
   render() {
     if (this.props.id === Number(this.props.params.match.params.id)) {
       console.log('In PrivateProfile return, this.props is: ', this.props);
       return (
         <PrivateProfile
+          currentComment={this.currentComment} 
+          handleCommentSubmit={this.handleCommentSubmit}
+          updateComment={this.updateComment}
           getComments={this.getComments}
           comments={this.state.comments}
           id={this.props.id}
+          currentUserId={this.props.id}
         />
       );
     }
     console.log('In PublicProfile return, this.props is: ', this.props);
     return (
       <PublicProfile
+        currentComment={this.currentComment} 
+        handleCommentSubmit={this.handleCommentSubmit}
+        updateComment={this.updateComment}
         getComments={this.getComments}
         comments={this.state.comments}
         id={this.props.params.match.params.id}
