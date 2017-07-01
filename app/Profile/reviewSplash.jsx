@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, ButtonToolbar, Button } from 'react-bootstrap';
 const Rating = require('react-rating');
+import ModalCommentForm from './modalCommentForm.jsx'
 
 const reviewSplash = ({ showReviewSplash, handleRatingClick }) => (
   <div>
@@ -15,6 +16,7 @@ const reviewSplash = ({ showReviewSplash, handleRatingClick }) => (
           empty={<img src="assets/star-grey.png" className="icon" alt="" />}
           full={<img src="assets/star-yellow.png" className="icon" alt="" />}
         />
+        <ModalCommentForm />
       </Modal.Body>
     </Modal>
   </div>

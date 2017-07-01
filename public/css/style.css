@@ -1765,6 +1765,8 @@ i.icon-white {
 }
 
 .comments {
+	max-height: 350px;
+	overflow-y: scroll;
 	margin: 1em;
 	padding: 1em;
 	border: 1px solid black;

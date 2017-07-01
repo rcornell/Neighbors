@@ -8,7 +8,7 @@ describe('', function() {
 
   let nightmare = null;
   beforeEach(() => {
-    nightmare = new Nightmare({show: true, typeInterval: 100}).viewport(800,600);
+    nightmare = new Nightmare({show: true, typeInterval: 20}).viewport(800,600);
   });
 
   describe('Load the page successfully: ', function() {
@@ -102,7 +102,7 @@ describe('', function() {
         .wait(500)
         .click('.ownerButton')
         .wait(1000)
-        .type('.commentInput', 'Henry!')
+        .type('.commentInput', 'OMG Henry!')
         .click('button.commentSubmitButton')
         // .evaluate(function() {
         //   return document.querySelector('.commentMessage').innerText;
