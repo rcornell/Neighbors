@@ -67,6 +67,7 @@ class UserItemEntry extends React.Component {
     return (
       <div className="row">
         <ReviewSplash
+          borrowerId={this.props.borrowerId}
           currentComment={this.props.currentComment} 
           handleCommentSubmit={this.props.handleCommentSubmit}
           updateComment={this.props.updateComment}

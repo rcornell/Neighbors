@@ -11,7 +11,7 @@ describe('', function() {
     nightmare = new Nightmare({show: true, typeInterval: 20}).viewport(800,600);
   });
 
-  xdescribe('Load the page successfully: ', function() {
+  describe('Load the page successfully: ', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -21,7 +21,7 @@ describe('', function() {
   })
 
 
-  xdescribe('Log in to the site: ', function() {
+  describe('Log in to the site: ', function() {
     it('should click the login button and enter credentials', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -37,7 +37,7 @@ describe('', function() {
     })
   })
 
-  xdescribe('Given bad login data: ', function() {
+  describe('Given bad login data: ', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -58,7 +58,7 @@ describe('', function() {
 
   describe('Interact with user comments: ', function() {
 
-    xit('should find the submit button', function(done) {
+    it('should find the submit button', function(done) {
       nightmare
         .on('console', function(type, input, message) {
           console.log(input, message);
@@ -117,7 +117,7 @@ describe('', function() {
 
     });
 
-    xit('should edit a comment', function(done) {
+    it('should edit a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -147,7 +147,7 @@ describe('', function() {
         .catch(done);
     });
 
-    xit('should delete a comment', function(done) {
+    it('should delete a comment', function(done) {
       const previousTopComment = '';
       nightmare
         .goto('http://localhost:8080')
@@ -180,7 +180,7 @@ describe('', function() {
 
   })
 
-  xdescribe('Borrow and review items: ', function() {
+  describe('Borrow and review items: ', function() {
 
     //BORROW AND RETURN
 
@@ -238,7 +238,7 @@ describe('', function() {
     });
 
     //BORROW, RETURN AND REVIEW
-    xit('should borrow an item and add it to your "borrowed" items', function(done) {
+    it('should borrow an item and add it to your "borrowed" items', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -267,7 +267,7 @@ describe('', function() {
         .catch(done)
     });
 
-    xit('should confirm that an item was returned to the owner', function(done) {
+    it('should confirm that an item was returned to the owner', function(done) {
       nightmare
         .on('console', function(type, input, message) {
           console.log(input, message);
@@ -298,7 +298,7 @@ describe('', function() {
     });
 
 
-    xit('should have reviews that were submitted by modal', function(done) {
+    it('should have reviews that were submitted by modal', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -311,7 +311,7 @@ describe('', function() {
         .wait(1000)
         .evaluate(() => {
           const obj = {};
-          obj.message = document.querySelector('.commentMessage').innerText;
+          obj.message = document.querySelector('.commentMessage').innerText.split(' ').slice(1,3).join(' ');
           obj.username = document.querySelector('.commentSubmitter').innerText;
           return obj;
         })

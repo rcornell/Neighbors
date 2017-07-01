@@ -18,28 +18,40 @@ class ProfileChecker extends React.Component {
     this.updateComment = this.updateComment.bind(this);
   }
   getComments() {
-    console.log('Entering getComments');
+    // console.log('Entering getComments');
     const profileId = +this.props.params.match.params.id;
-    console.log('Getting comments for profile: ', profileId);
+    // console.log('Getting comments for profile: ', profileId);
 
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
-        console.log('Received getComments results: ', results.data);
+        // console.log('Received getComments results: ', results.data);
         // results.data.reverse();
         this.setState({ 
           comments: results.data
         });
-        setTimeout(function() {
-          console.log('Comments are now: ', this.state.comments);
-        }.bind(this), 1000);
+        // setTimeout(function() {
+        //   console.log('Comments are now: ', this.state.comments);
+        // }.bind(this), 1000);
       })
   }
-  handleCommentSubmit(e) {
+  handleCommentSubmit(e, evt, borrowerId) {
+
+
+    // for (var i = 0; i < arguments.length; i+=1) {
+    //   console.log('ARGUMENTS: ', arguments[i]);
+    // }
+    
+    console.log('submitterId is: ', this.props.id);
+    console.log('borrowerId is: ', borrowerId);
+    const targetId = borrowerId ? borrowerId : +this.props.params.match.params.id;
+    console.log('targetId is: ', targetId);
+
+
     e.preventDefault();
     this.setState({ currentComment: '' });
     const messageData = {
       submitterId: this.props.id,
-      targetId: this.props.params.match.params.id,
+      targetId: targetId,
       message: this.state.currentComment
     };
     console.log('Sending data: ', messageData);
