@@ -1,8 +1,4 @@
 node_modules/
 private/
 public/app.bundle.js
-.babelrc
-.eslintrc.js
-.eslintrc.json
-.sequelizerc
 phantomjs
