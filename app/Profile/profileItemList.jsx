@@ -74,6 +74,9 @@ class ProfileItemList extends React.Component {
         });
       });
   }
+  deleteItemFromList(item_id) {
+    
+  }
   render() {
     return (
       <Tabs className="sub-component">
@@ -97,7 +100,7 @@ class ProfileItemList extends React.Component {
               populateProfile={this.props.populateProfile}
               fetchUserItems={this.fetchUserItems}
               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
-            />),
+            />)
           )}
         </TabPanel>
         <TabPanel>
