@@ -16,6 +16,14 @@ class ProfileChecker extends React.Component {
     this.getComments = this.getComments.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.updateComment = this.updateComment.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+  handleScroll(e) {
+    // console.log(arguments);
+    var node = document.querySelector('.comments');
+    console.log('scrollHeight: ', node.scrollHeight);
+    console.log('scrollTop: ', node.scrollTop);
+    console.log('scrolled to: ', node.scrollTop + node.clientHeight);
   }
   getComments() {
     // console.log('Entering getComments');
@@ -75,6 +83,7 @@ class ProfileChecker extends React.Component {
       console.log('In PrivateProfile return, this.props is: ', this.props);
       return (
         <PrivateProfile
+          handleScroll={this.handleScroll}
           currentComment={this.currentComment} 
           handleCommentSubmit={this.handleCommentSubmit}
           updateComment={this.updateComment}
@@ -88,6 +97,7 @@ class ProfileChecker extends React.Component {
     console.log('In PublicProfile return, this.props is: ', this.props);
     return (
       <PublicProfile
+        handleScroll={this.handleScroll}
         currentComment={this.currentComment} 
         handleCommentSubmit={this.handleCommentSubmit}
         updateComment={this.updateComment}

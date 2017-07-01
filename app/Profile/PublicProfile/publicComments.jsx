@@ -9,19 +9,12 @@ class Comments extends React.Component {
       showAll: false
     }
     this.toggleAll = this.toggleAll.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
   }
 
   toggleAll() {
     this.setState({showAll: !this.state.showAll});
   }
-  handleScroll(e) {
-    // console.log(arguments);
-    var node = document.querySelector('.comments');
-    console.log('scrollHeight: ', node.scrollHeight);
-    console.log('scrollTop: ', node.scrollTop);
-    console.log('scrolled to: ', node.scrollTop + node.clientHeight);
-  }
+
 
   render() {
     if (!this.props.comments || !this.props.comments.length) {
@@ -41,7 +34,7 @@ class Comments extends React.Component {
       <div
         name="commentsDiv"
         className="comments"
-        onScroll={this.handleScroll}> 
+        onScroll={this.props.handleScroll}> 
         {
           commentsToShow.map((comment) =>
             <CommentItem
