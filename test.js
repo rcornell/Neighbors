@@ -78,7 +78,7 @@ describe('interact with ShareIn user interface', function() {
         .click('#react-tabs-2')
         .wait(500)
         .click('.ownerButton')
-        .wait(500)
+        .wait(2000)
         .click('.editCommentButton')
         .type('.editCommentInput', 'Working test')
         .click('.submitEditButton')

@@ -37,7 +37,7 @@ class ProfileChecker extends React.Component {
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
         console.log('Received getComments results: ', results.data);
-        results.data.reverse();
+        // results.data.reverse();
         this.setState({ 
           comments: results.data
         });

@@ -70,6 +70,9 @@ exports.getComments = (req, res) => {
     include: [
       {model: User, as: 'receiver', attributes: ['fullName']}, 
       {model: User, as: 'sender', attributes: ['fullName']}
+    ],
+    order: [
+      ['createdAt', 'DESC']
     ]
   })
     .then((comments) => {
