@@ -12,7 +12,11 @@ import axios from 'axios';
 class ProfileChecker extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], currentComment: '' };
+    this.state = { 
+      comments: [],
+      currentComment: '',
+      numberOfScrolls: 0
+    };
     this.getComments = this.getComments.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.updateComment = this.updateComment.bind(this);
@@ -21,10 +25,35 @@ class ProfileChecker extends React.Component {
   handleScroll(e) {
     // console.log(arguments);
     var node = document.querySelector('.comments');
-    console.log('scrollHeight: ', node.scrollHeight);
-    console.log('scrollTop: ', node.scrollTop);
-    console.log('scrolled to: ', node.scrollTop + node.clientHeight);
+    if (node.scrollTop + node.clientHeight === node.scrollHeight) {
+      console.log('Scrolled to bottom');
+      this.setState({numberOfScrolls: this.state.numberOfScrolls + 3});
+      this.getMoreComments();
+    }
+    // console.log('scrollHeight: ', node.scrollHeight);
+    // console.log('scrollTop: ', node.scrollTop);
+    // console.log('scrolled to: ', node.scrollTop + node.clientHeight);
   }
+  getMoreComments() {
+    // console.log('Entering getComments');
+    const profileId = +this.props.params.match.params.id;
+    // console.log('Getting comments for profile: ', profileId);
+
+    axios.get(`/api/comments?id=${profileId}`)
+      .then((results) => {
+        // const commentsToAdd = results.data.slice(this.state.numberOfScrolls,this.state.numberOfScrolls + 3);
+        // this.setState({ 
+        //   comments: this.state.comments.concat(commentsToAdd)
+        // });
+        this.setState({
+          comments: results.data.slice(0, this.state.numberOfScrolls + 3)
+        });
+      })
+        // setTimeout(function() {
+        //   console.log('Comments are now: ', this.state.comments);
+        // }.bind(this), 1000);
+  }
+
   getComments() {
     // console.log('Entering getComments');
     const profileId = +this.props.params.match.params.id;
@@ -35,7 +64,7 @@ class ProfileChecker extends React.Component {
         // console.log('Received getComments results: ', results.data);
         // results.data.reverse();
         this.setState({ 
-          comments: results.data
+          comments: results.data.slice(0,5)
         });
         // setTimeout(function() {
         //   console.log('Comments are now: ', this.state.comments);
