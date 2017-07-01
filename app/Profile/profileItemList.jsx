@@ -56,6 +56,15 @@ class ProfileItemList extends React.Component {
         });
       })
       .catch((err) => console.log('Error retrieving items: ', err));
+
+    // console.log('In fetchUserItems, route is: ', route);
+    // console.log('In fetchUserItems, "this" is: ', this);
+
+    // fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
+    //   .then(items => items.json())
+    //   .then(json => this.setState({
+    //     userItems: json,
+    //   }));
   }
   fetchBorrowedItems(route) {
     console.log('Entering fetchBorrowedItems with route: ', route);
@@ -77,6 +86,7 @@ class ProfileItemList extends React.Component {
   deleteItemFromList(item_id) {
     
   }
+  
   render() {
     return (
       <Tabs className="sub-component">

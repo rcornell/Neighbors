@@ -84,6 +84,8 @@ class UserItemEntry extends React.Component {
         </a>
         <DeleteItemButton 
           itemID={this.props.itemId}
+          fetchUserItems={this.props.fetchUserItems}
+          ownerId={this.props.ownerId}
         />
         <div className="col-md-6">
           <h4 className="title">{this.props.title}</h4>

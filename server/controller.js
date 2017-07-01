@@ -199,23 +199,22 @@ exports.addItems = (req, res) => {
 };
 
 exports.deleteItems = (req, res) => {
-  console.log('deleteItems controller reached');
-  console.log('deleteItems req.body:', req.body);
-  res.sendStatus(200);
+  var itemID = req.body.item_id;
+  console.log('deleteItems controller req.body.item_id:', itemID);
   
-  // Item.destroy({
-  //   where: {
-  //     userID: req.body.userID
-  //   }
-  // })
-  // .then((result) => {
-  //   console.log('successful deleting item');
-  //   res.sendStatus(200);
-  // })
-  // .catch((err) => {
-  //   console.log('error deleting item');
-  //   res.sendStatus(500);
-  // });
+  Item.destroy({
+    where: {
+      id: itemID
+    }
+  })
+  .then((result) => {
+    console.log('successful deleting item', result);
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.log('error deleting item', err);
+    res.sendStatus(500);
+  });
 };
 
 exports.borrow = (req, res) => {
