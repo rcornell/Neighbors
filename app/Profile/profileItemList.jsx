@@ -40,6 +40,7 @@ class ProfileItemList extends React.Component {
   fetchUserItems(route) {
     console.log('In fetchUserItems, route is: ', route);
     console.log('In fetchUserItems, "this" is: ', this);
+
     fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
       .then(items => items.json())
       .then(json => this.setState({
@@ -53,9 +54,7 @@ class ProfileItemList extends React.Component {
         borrowedItems: json,
       }));
   }
-  deleteItemFromList(item_id) {
-    
-  }
+  
   render() {
     return (
       <Tabs className="sub-component">
@@ -76,6 +75,7 @@ class ProfileItemList extends React.Component {
               populateProfile={this.props.populateProfile}
               fetchUserItems={this.fetchUserItems}
               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
+              deleteItemFromList={this.deleteItemFromList(this)}
             />)
           )}
         </TabPanel>

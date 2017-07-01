@@ -38,7 +38,7 @@ class DeleteItemButton extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(info),
     })
-     // .then(() => this.props.deleteItemFromList(this.state.item_id))
+     .then(() => this.props.fetchUserItems(this.props.ownerId));
   }
   
   render() {
