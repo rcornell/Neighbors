@@ -80,7 +80,7 @@ class App extends React.Component {
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const ProfileCheckerRender = (props) => {
       const userId = this.state.profile ? this.state.profile.id : 0;
-      return (<ProfileChecker id={userId} params={props} />);
+      return (<ProfileChecker id={userId} params={props} profile={this.state.profile}/>);
     };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
     const searchRender  = (props) => {

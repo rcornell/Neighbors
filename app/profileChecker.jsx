@@ -52,6 +52,8 @@ class ProfileChecker extends React.Component {
         comments={this.state.comments}
         id={this.props.params.match.params.id}
         currentUserId={this.props.id}
+        self={this.props.id} 
+        allProps={this.props}
       />
     );
   }
