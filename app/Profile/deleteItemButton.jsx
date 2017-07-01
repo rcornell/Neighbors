@@ -30,11 +30,6 @@ class DeleteItemButton extends React.Component {
       item_id: this.state.item_id
     };
     
-    // console.log(`/api/items/${this.state.item_id}`);
-    // axios.delete('/api/items', {
-    //   item_id: this.state.item_id
-    // });
-
     fetch('/api/items', {
       method: 'DELETE',
       headers: {
