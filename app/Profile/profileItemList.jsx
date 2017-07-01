@@ -84,6 +84,9 @@ class ProfileItemList extends React.Component {
         <TabPanel>
           {this.state.userItems && this.state.userItems.map(item =>
             (<UserItemEntry
+              currentComment={this.props.currentComment} 
+              handleCommentSubmit={this.props.handleCommentSubmit}
+              updateComment={this.props.updateComment}
               image={item.image}
               ownerId={item.owner_id}
               itemId={item.id}
