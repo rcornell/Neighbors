@@ -198,6 +198,25 @@ exports.addItems = (req, res) => {
     });
 };
 
+exports.deleteItems = (req, res) => {
+  var itemID = req.body.item_id;
+  console.log('deleteItems controller req.body.item_id:', itemID);
+  
+  Item.destroy({
+    where: {
+      id: itemID
+    }
+  })
+  .then((result) => {
+    console.log('successful deleting item', result);
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.log('error deleting item', err);
+    res.sendStatus(500);
+  });
+};
+
 exports.borrow = (req, res) => {
   Item.update({
     borrower_id: req.body.userID,
@@ -296,8 +315,10 @@ exports.handleLogout = (req, res) => {
 
 exports.checkAuth = (req, res, next) => {
   if (req.session && req.session.userId) {
+    console.log('Authenticated OK')
     next();
   } else {
+    console.log('Authentication failed');
     res.redirect('/');
   }
 };

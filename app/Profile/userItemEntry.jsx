@@ -9,6 +9,7 @@
 import { withRouter } from 'react-router';
 import ReviewSplash from './reviewSplash.jsx';
 import axios from 'axios';
+import DeleteItemButton from './deleteItemButton.jsx';
 
 const React = require('react');
 
@@ -81,6 +82,11 @@ class UserItemEntry extends React.Component {
             className="media-photo img-responsive"
           />
         </a>
+        <DeleteItemButton 
+          itemID={this.props.itemId}
+          fetchUserItems={this.props.fetchUserItems}
+          ownerId={this.props.ownerId}
+        />
         <div className="col-md-6">
           <h4 className="title">{this.props.title}</h4>
           <p className="summary">{this.props.description}</p>
@@ -94,12 +100,12 @@ class UserItemEntry extends React.Component {
               </button>
               <button className="btn btn-primary returnItemButton" onClick={this.toggleReviewSplash}>
                 Item Returned?
-              </button>
+              </button> 
             </div>
           }
         </div>
       </div>
-    );
+    )
   }
 }
 const UserItemEntryWithRouter = withRouter(UserItemEntry);

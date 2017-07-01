@@ -22,11 +22,13 @@ module.exports = (app) => {
     });
   });
 
+
   // API ROUTES
   app.get('/api/profile/:id', controller.checkAuth, controller.getProfile);
   app.get('/api/userItems/:userId', controller.checkAuth, controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.checkAuth, controller.getBorrowedItems);
   app.post('/api/items', controller.checkAuth, controller.addItems);
+  app.delete('/api/items', controller.checkAuth, controller.deleteItems);
   app.put('/api/items/:id', controller.checkAuth, controller.returnItem);
   app.put('/api/ratings', controller.updateRating);
   app.post('/api/updateUser', controller.updateUser);
