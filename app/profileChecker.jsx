@@ -44,15 +44,15 @@ class ProfileChecker extends React.Component {
     };
     console.log('Sending data: ', messageData);
 
-    // fetch('/api/comments', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-type': 'application/json',
-    //   },
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(messageData),
-    // })
-    // .then(() => this.getComments()); 
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(messageData),
+    })
+    .then(() => this.getComments()); 
   }
   updateComment(e) {
     console.log(`Updating comment to ${e.target.value} with props ${this.props}`);

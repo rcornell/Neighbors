@@ -11,7 +11,7 @@ describe('', function() {
     nightmare = new Nightmare({show: true, typeInterval: 20}).viewport(800,600);
   });
 
-  describe('Load the page successfully: ', function() {
+  xdescribe('Load the page successfully: ', function() {
     it('should not throw errors on load', function(done) {
       nightmare.goto('http://localhost:8080')
         .end()
@@ -21,7 +21,7 @@ describe('', function() {
   })
 
 
-  describe('Log in to the site: ', function() {
+  xdescribe('Log in to the site: ', function() {
     it('should click the login button and enter credentials', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -37,7 +37,7 @@ describe('', function() {
     })
   })
 
-  describe('Given bad login data: ', function() {
+  xdescribe('Given bad login data: ', function() {
     it('should fail to log in', function(done) {
       nightmare.goto('http://localhost:8080')
         .click('.loginButton')
@@ -58,7 +58,7 @@ describe('', function() {
 
   describe('Interact with user comments: ', function() {
 
-    it('should find the submit button', function(done) {
+    xit('should find the submit button', function(done) {
       nightmare
         .on('console', function(type, input, message) {
           console.log(input, message);
@@ -102,21 +102,22 @@ describe('', function() {
         .wait(500)
         .click('.ownerButton')
         .wait(1000)
-        .type('.commentInput', 'OMG Henry!')
-        .click('button.commentSubmitButton')
-        // .evaluate(function() {
-        //   return document.querySelector('.commentMessage').innerText;
-        // })
-        // .then((text) => {
-        //   expect(text).to.equal('Henry!');
-        //   done();
-        // })
-        .then((result) => { done() })
+        .type('.commentInput', 'Comment from test')
+        .click('.commentSubmitButton')
+        .wait(2000)
+        .evaluate(function() {
+          return document.querySelector('.commentMessage').innerText;
+        })
+        .then((text) => {
+          expect(text).to.equal('Comment from test');
+          done();
+        })
+        // .then((result) => { done() })
         .catch(done);
 
     });
 
-    it('should edit a comment', function(done) {
+    xit('should edit a comment', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -146,7 +147,7 @@ describe('', function() {
         .catch(done);
     });
 
-    it('should delete a comment', function(done) {
+    xit('should delete a comment', function(done) {
       const previousTopComment = '';
       nightmare
         .goto('http://localhost:8080')
@@ -179,7 +180,7 @@ describe('', function() {
 
   })
 
-  describe('Borrow and review items: ', function() {
+  xdescribe('Borrow and review items: ', function() {
 
     //BORROW AND RETURN
 
