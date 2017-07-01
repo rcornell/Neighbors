@@ -8,7 +8,7 @@ const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
       <input
         type="text"
         name="search"
-        className="form-control"
+        className="form-control searchInput"
         placeholder="Search for item..."
         onChange={handleSearchInputChange}
       />
@@ -17,14 +17,14 @@ const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
       <input
         type="text"
         name="zip"
-        className="form-control"
+        className="form-control zipInput"
         placeholder="Zip Code"
         onChange={handleSearchInputChange}
       />
     </div>
     <span className="input-group-btn">
       <button
-        className="btn btn-success"
+        className="btn btn-success searchButton"
         type="button"
         onClick={handleSearch}
       >Mr.Button

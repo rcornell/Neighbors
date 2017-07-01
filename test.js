@@ -179,7 +179,7 @@ describe('', function() {
 
   })
 
-  xdescribe('Borrow and review items: ', function() {
+  describe('Borrow and review items: ', function() {
 
     //BORROW AND RETURN
 
@@ -237,7 +237,7 @@ describe('', function() {
     });
 
     //BORROW, RETURN AND REVIEW
-    it('should borrow an item and add it to your "borrowed" items', function(done) {
+    xit('should borrow an item and add it to your "borrowed" items', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
@@ -266,7 +266,7 @@ describe('', function() {
         .catch(done)
     });
 
-    it('should confirm that an item was returned to the owner', function(done) {
+    xit('should confirm that an item was returned to the owner', function(done) {
       nightmare
         .on('console', function(type, input, message) {
           console.log(input, message);
@@ -281,10 +281,10 @@ describe('', function() {
         .click('a#gotoProfileButton')
         .wait(3000)
         .click('.returnItemButton')
-        .wait(1000)  
-        .type('.commentInput', 'Test review')
-        .click('.commentModalSubmitButton')
-        .wait(2000)
+        .wait(2000)  
+        // .type('.modalCommentInput', 'Test review')
+        // .click('.modalCommentSubmitButton')
+        // .wait(2000)
         .click('.modal-body span span span')
         .wait(2000)
         .visible('.returnItemButton')
@@ -297,7 +297,7 @@ describe('', function() {
     });
 
 
-    it('should have reviews that were submitted by modal', function(done) {
+    xit('should have reviews that were submitted by modal', function(done) {
       nightmare
         .goto('http://localhost:8080')
         .click('.loginButton')
