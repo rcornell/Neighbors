@@ -75,7 +75,6 @@ class ProfileItemList extends React.Component {
               populateProfile={this.props.populateProfile}
               fetchUserItems={this.fetchUserItems}
               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
-              deleteItemFromList={this.deleteItemFromList(this)}
             />)
           )}
         </TabPanel>
