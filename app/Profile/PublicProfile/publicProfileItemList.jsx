@@ -8,6 +8,7 @@
 /* eslint react/prop-types: 0 */
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import axios from 'axios';
 
 const React = require('react');
 const PublicUserItemEntry = require('./publicUserItemEntry.jsx');
@@ -30,11 +31,18 @@ class PublicProfileItemList extends React.Component {
     return true;
   }
   fetchUserItems(route) {
-    fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
-      .then(items => items.json())
-      .then(json => this.setState({
-        userItems: json,
-      }));
+    // fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
+    //   .then(items => items.json())
+    //   .then(json => this.setState({
+    //     userItems: json,
+    //   }));
+    axios(`/api/userItems/${route}`)
+      .then((results) => {
+        this.setState({
+          userItems: results.data
+        });
+      })
+      .catch((err) => console.log('Error retrieving items: ', err));
   }
   render() {
     return (

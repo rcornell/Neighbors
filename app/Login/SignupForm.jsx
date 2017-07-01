@@ -5,6 +5,7 @@
 
 const React = require('react');
 const statesList = require('../lib/states.js');
+import axios from 'axios';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -64,19 +65,37 @@ class SignupForm extends React.Component {
         });
       }
       
-      // api call
-      fetch('/signup', {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(info),
+      // // api call
+      // fetch('/signup', {
+      //   credentials: 'same-origin',
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-type': 'application/json',
+      //   },
+      //   body: JSON.stringify(info),
+      // })
+      //   .then(resp => resp.json())
+      //   .then((resp) => {
+      //     this.props.appMethods.updateUser(resp.profile);
+      //     this.props.loginMethods.login(resp.profile.id);
+      //     this.clearField();
+      //   });
+
+      axios.post('/signup', {
+        phone,
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        email: this.email.value,
+        password: this.password.value,
+        passMatch: this.passMatch.value,
+        city: this.city.value,
+        street: this.address.value,
+        zip: this.zip.value,
+        state: this.addState.value
       })
-        .then(resp => resp.json())
-        .then((resp) => {
-          this.props.appMethods.updateUser(resp.profile);
-          this.props.loginMethods.login(resp.profile.id);
+        .then((response) => {
+          this.props.appMethods.updateUser(response.data.profile);
+          this.props.loginMethods.login(response.data.profile.id);
           this.clearField();
         });
     };

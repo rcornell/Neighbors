@@ -27,11 +27,11 @@ class BorrowedItemEntry extends React.Component {
           />
         </a>
         <div className="col-md-4">
-          <h4 className="title">{this.props.title}</h4>
+          <h4 className="title borrowedItemTitle">{this.props.title}</h4>
           <p className="summary">{this.props.description}</p>
         </div>
         <div className="col-md-6">
-          <button onClick={this.changeRoute} className="pull-right">
+          <button onClick={this.changeRoute} className="pull-right ownerButton">
             <p className="owner">  Owner: {this.props.owner}</p>
           </button>
         </div>

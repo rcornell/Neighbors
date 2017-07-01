@@ -8,6 +8,7 @@
 
 import { withRouter } from 'react-router';
 import ReviewSplash from './reviewSplash.jsx';
+import axios from 'axios';
 
 const React = require('react');
 
@@ -26,10 +27,14 @@ class UserItemEntry extends React.Component {
     this.handleRatingClick = this.handleRatingClick.bind(this);
   }
   returnItem() {
-    fetch(`/api/items/${this.props.itemId}`, {
-      credentials: 'same-origin',
-      method: 'PUT',
-    })
+    // fetch(`/api/items/${this.props.itemId}`, {
+    //   credentials: 'same-origin',
+    //   method: 'PUT',
+    // })
+    //   .then(() => this.props.fetchUserItems(this.props.ownerId))
+    //   .catch(() => alert('Sorry, there was a problem fulfilling your request. Please try again'));
+
+    axios.put(`/api/items/${this.props.itemId}`)
       .then(() => this.props.fetchUserItems(this.props.ownerId))
       .catch(() => alert('Sorry, there was a problem fulfilling your request. Please try again'));
   }
@@ -41,22 +46,31 @@ class UserItemEntry extends React.Component {
   handleRatingClick(rating) {
     this.toggleReviewSplash();
     const data = { id: this.props.borrowerId, rating };
-    fetch('/api/ratings/', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(data),
+    // fetch('/api/ratings/', {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   credentials: 'same-origin',
+    //   body: JSON.stringify(data),
+    // })
+    //   . then(() => this.returnItem())
+    //   .catch(err => console.log('error updating rating', err));
+    axios.put('/api/ratings/', {
+      id: this.props.borrowerId, rating
     })
-      . then(() => this.returnItem())
-      .catch(err => console.log('error updating rating', err));
+      .then(() => this.returnItem())
+      .catch(err => console.log('Error updating rating', err));
   }
   render() {
     const { showReviewSplash } = this.state;
     return (
       <div className="row">
         <ReviewSplash
+          borrowerId={this.props.borrowerId}
+          currentComment={this.props.currentComment} 
+          handleCommentSubmit={this.props.handleCommentSubmit}
+          updateComment={this.props.updateComment}
           showReviewSplash={showReviewSplash}
           handleRatingClick={this.handleRatingClick}
         />
@@ -78,7 +92,7 @@ class UserItemEntry extends React.Component {
               <button onClick={this.changeRoute} className="btn-link">
                 {this.props.borrower}
               </button>
-              <button className="btn btn-primary" onClick={this.toggleReviewSplash}>
+              <button className="btn btn-primary returnItemButton" onClick={this.toggleReviewSplash}>
                 Item Returned?
               </button>
             </div>

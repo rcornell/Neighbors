@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentTool from './publicCommentTool.jsx'
+import axios from 'axios';
 
 class CommentItem extends React.Component {
   constructor(props) {
@@ -20,16 +21,19 @@ class CommentItem extends React.Component {
     this.setState({isEditing: !this.state.isEditing});
   }
   submitEdit(e) {
-    fetch('/api/comments', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        commentId: this.props.comment.id,
-        message:this.state.newComment
-      })
+    // fetch('/api/comments', {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   credentials: 'same-origin',
+    //   body: JSON.stringify({
+    //     commentId: this.props.comment.id,
+    //     message:this.state.newComment
+    //   })
+    axios.put('/api/comments', {
+      commentId: this.props.comment.id,
+      message:this.state.newComment
     })
       .then(() => {
         console.log('UPDATE SENT');
@@ -60,6 +64,7 @@ class CommentItem extends React.Component {
       const CommentBody = this.state.isEditing 
         ? <input
             type="text"
+            className="editCommentInput"
             onChange={this.handleUpdateComment}
             placeholder={this.props.comment.message}
           />
@@ -81,7 +86,10 @@ class CommentItem extends React.Component {
       <div className="commentItem">
         <div 
           className="commentSubmitter">
-          By {this.props.comment.sender.fullName} on {this.props.comment.createdAt.slice(0,10)}
+          By <a className="submitterName"
+                href={'/profile/' + this.props.comment.sender_id}>
+                {this.props.comment.sender.fullName}
+              </a> on {this.props.comment.createdAt.slice(0,10)}
         </div>
         {CommentBody}
         {Tool}

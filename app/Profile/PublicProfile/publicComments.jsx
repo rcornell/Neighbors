@@ -20,14 +20,15 @@ class Comments extends React.Component {
       return <div>Nobody has commented on this profile yet!</div>
     }
 
-    let showText = this.state.showAll ? 'Read less' : 'Read more';
-    let showButton = 
-      <p 
-        className="toggleAllComments"
-        onClick={this.toggleAll}>{showText}
-      </p>;
-    console.log('Rendering comments: ', this.props.comments);
-    const commentsToShow = this.state.showAll ? this.props.comments : this.props.comments.slice(0,3);
+    // let showText = this.state.showAll ? 'Read less' : 'Read more';
+    // let showButton = 
+    //   <p 
+    //     className="toggleAllComments"
+    //     onClick={this.toggleAll}>{showText}
+    //   </p>;
+    // console.log('Rendering comments: ', this.props.comments);
+    // const commentsToShow = this.state.showAll ? this.props.comments : this.props.comments.slice(0,3);
+    const commentsToShow = this.props.comments;
     return (
       <div className="comments"> 
         {
@@ -40,11 +41,13 @@ class Comments extends React.Component {
             />
           )
         }
-        {showButton}
+        
       </div>
     );
   }
 }
+//{showButton}
+
 
 // const Comments = props => {
 //   if (!props.comments || props.comments.length === 0) {

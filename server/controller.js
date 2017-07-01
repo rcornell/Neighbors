@@ -72,6 +72,9 @@ exports.getComments = (req, res) => {
     include: [
       {model: User, as: 'receiver', attributes: ['fullName']}, 
       {model: User, as: 'sender', attributes: ['fullName']}
+    ],
+    order: [
+      ['createdAt', 'DESC']
     ]
   })
     .then((comments) => {
@@ -82,6 +85,7 @@ exports.getComments = (req, res) => {
     .catch(err => res.status(500).send('Error finding comments: ', err));
 }
 exports.checkSession = (req, res, next) => {
+  console.log(req.sessionID);
   if (req.sessionID) {
     Session.findOne({
       where: { sid: req.sessionID },

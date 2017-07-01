@@ -7,6 +7,7 @@
 
 
 const React = require('react');
+import axios from 'axios';
 
 class AddStuff extends React.Component {
   constructor(props) {
@@ -29,13 +30,22 @@ class AddStuff extends React.Component {
         description: this.description.value,
         user_id: this.props.userId,
       };
-      fetch('/api/items', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify(info),
+      // fetch('/api/items', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-type': 'application/json',
+      //   },
+      //   credentials: 'same-origin',
+      //   body: JSON.stringify(info),
+      // })
+      //   .then(() => this.props.populateProfile(this.props.userId))
+      //   .then(() => this.clearField());
+
+      axios.post('/api/items', {
+        image: this.image.value,
+        title: this.title.value,
+        description: this.description.value,
+        user_id: this.props.userId,
       })
         .then(() => this.props.populateProfile(this.props.userId))
         .then(() => this.clearField());

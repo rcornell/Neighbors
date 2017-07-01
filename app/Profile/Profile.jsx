@@ -10,6 +10,7 @@ const AddStuff = require('./addStuff.jsx');
 const Bank = require('./bank.jsx');
 const ProfileItemList = require('./profileItemList.jsx');
 import Comments from './PublicProfile/publicComments.jsx';
+import axios from 'axios';
 
 
 class Profile extends React.Component {
@@ -35,18 +36,29 @@ class Profile extends React.Component {
       listFlag: false
     };
     props.getComments(props.id);
+    this.populateProfile = this.populateProfile.bind(this);
   }
-  componentWillMount() {
-    this.populateProfile(this.props.id);
+  componentDidMount() {
+    // this.populateProfile(this.props.id);
+    axios.get(`/api/profile/${this.props.id}`)
+      .then(result => this.setState(result.data))
+      .then(this.setState({
+        listFlag: !(this.state.listFlag)
+      }));
   }
   // Populate profile populates the profile page by querying the User table by Id.
   populateProfile(profileRoute) {
-    fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
-      .then(profile => profile.json())
-      .then(json => this.setState(json)) //This is a problem
-      .then(this.setState({
-        listFlag: !(this.state.listFlag),
-      }));
+    // fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
+    //   .then(profile => profile.json())
+    //   .then(json => this.setState(json)) //This is a problem
+    //   .then(this.setState({
+    //     listFlag: !(this.state.listFlag),
+    //   }));
+    // axios.get(`/api/profile/${profileRoute}`)
+    //   .then(result => this.setState(result.data))
+    //   .then(this.setState({
+    //     listFlag: !(this.state.listFlag)
+    //   }));
   }
 
   render() {
@@ -81,7 +93,10 @@ class Profile extends React.Component {
         <div className="col-lg-5">
           {this.state.id &&
             <ProfileItemList
-              populateProfile={this.populateProfile.bind(this)}
+              currentComment={this.props.currentComment} 
+              handleCommentSubmit={this.props.handleCommentSubmit}
+              updateComment={this.props.updateComment}
+              populateProfile={this.populateProfile}
               userId={this.state.id}
               flag={this.state.listFlag}
             />
@@ -92,5 +107,7 @@ class Profile extends React.Component {
     );
   }
 }
+
+
 
 module.exports = Profile;
