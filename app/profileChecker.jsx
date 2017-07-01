@@ -15,7 +15,8 @@ class ProfileChecker extends React.Component {
     this.state = { 
       comments: [],
       currentComment: '',
-      numberOfScrolls: 0
+      numOfCommentsToShow: 5,
+      canGetMoreComments: true
     };
     this.getComments = this.getComments.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
@@ -23,60 +24,43 @@ class ProfileChecker extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
   }
   handleScroll(e) {
-    // console.log(arguments);
     var node = document.querySelector('.comments');
-    if (node.scrollTop + node.clientHeight === node.scrollHeight) {
+    if (this.state.canGetMoreComments && node.scrollTop + node.clientHeight === node.scrollHeight) {
       console.log('Scrolled to bottom');
-      this.setState({numberOfScrolls: this.state.numberOfScrolls + 3});
+      this.setState({
+        numOfCommentsToShow: this.state.numOfCommentsToShow + 3,
+        canGetMoreComments: false
+      });
+      setTimeout(function() {
+        this.setState({
+          canGetMoreComments: true})
+      }.bind(this), 500)
       this.getMoreComments();
     }
-    // console.log('scrollHeight: ', node.scrollHeight);
-    // console.log('scrollTop: ', node.scrollTop);
-    // console.log('scrolled to: ', node.scrollTop + node.clientHeight);
   }
   getMoreComments() {
-    // console.log('Entering getComments');
+    console.log('Getting more comments');
     const profileId = +this.props.params.match.params.id;
-    // console.log('Getting comments for profile: ', profileId);
-
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
-        // const commentsToAdd = results.data.slice(this.state.numberOfScrolls,this.state.numberOfScrolls + 3);
-        // this.setState({ 
-        //   comments: this.state.comments.concat(commentsToAdd)
-        // });
         this.setState({
-          comments: results.data.slice(0, this.state.numberOfScrolls + 3)
+          comments: results.data.slice(0, this.state.numOfCommentsToShow + 3)
         });
       })
-        // setTimeout(function() {
-        //   console.log('Comments are now: ', this.state.comments);
-        // }.bind(this), 1000);
   }
 
   getComments() {
-    // console.log('Entering getComments');
+    console.log('Getting comments');
     const profileId = +this.props.params.match.params.id;
-    // console.log('Getting comments for profile: ', profileId);
 
     axios.get(`/api/comments?id=${profileId}`)
       .then((results) => {
-        // console.log('Received getComments results: ', results.data);
-        // results.data.reverse();
         this.setState({ 
-          comments: results.data.slice(0,5)
+          comments: results.data.slice(0, this.state.numOfCommentsToShow)
         });
-        // setTimeout(function() {
-        //   console.log('Comments are now: ', this.state.comments);
-        // }.bind(this), 1000);
       })
   }
   handleCommentSubmit(e, evt, borrowerId) {
-
-
-    // for (var i = 0; i < arguments.length; i+=1) {
-    //   console.log('ARGUMENTS: ', arguments[i]);
-    // }
     
     console.log('submitterId is: ', this.props.id);
     console.log('borrowerId is: ', borrowerId);
@@ -91,7 +75,6 @@ class ProfileChecker extends React.Component {
       targetId: targetId,
       message: this.state.currentComment
     };
-    console.log('Sending data: ', messageData);
 
     fetch('/api/comments', {
       method: 'POST',
@@ -109,7 +92,7 @@ class ProfileChecker extends React.Component {
   }
   render() {
     if (this.props.id === Number(this.props.params.match.params.id)) {
-      console.log('In PrivateProfile return, this.props is: ', this.props);
+      // console.log('In PrivateProfile return, this.props is: ', this.props);
       return (
         <PrivateProfile
           handleScroll={this.handleScroll}
@@ -123,7 +106,7 @@ class ProfileChecker extends React.Component {
         />
       );
     }
-    console.log('In PublicProfile return, this.props is: ', this.props);
+    // console.log('In PublicProfile return, this.props is: ', this.props);
     return (
       <PublicProfile
         handleScroll={this.handleScroll}
